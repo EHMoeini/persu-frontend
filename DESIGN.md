@@ -219,32 +219,38 @@ The design system employs **Level 2 (Rounded)** shape geometry, pairing 8px (`0.
 ## Components
 
 ### Buttons
+
 - **Primary Action:** Solid vibrant sky blue (`#0284c7`), text `#ffffff`, radius `0.5rem`, height `44px`. Hover state: `#0369a1`. Active state: `#075985`. Focus ring: `3px` solid `#38bdf8`.
 - **Energetic Secondary (Quick Book / Instant Pay):** Dynamic tangerine (`#f97316`), text `#ffffff`, radius `0.5rem`. Hover state: `#ea580c`.
 - **Soft Accent:** Background `sky-light` (`#e0f2fe`), text `#0284c7`, hover `#bae6fd`.
 - **Outline:** Transparent fill, `1.5px` border `#cbd5e1`, text `#0f172a`, hover background `#f1f5f9`.
 
 ### Time-Slot Matrix Chips
+
 - **Available:** Background `#ffffff`, border `1px solid #cbd5e1`, text `#0f172a`, sub-price text `#64748b`. Hover: border `#0284c7`, background `#f0f9ff`.
 - **Selected:** Background `#e0f2fe`, border `2px solid #0284c7`, text `#0284c7`, font weight `600`.
 - **Reserved / Occupied:** Background `#f1f5f9`, border `1px solid #e2e8f0`, text `#94a3b8`, cursor `not-allowed`, strike-through time display.
 - **Expiring Cart Hold:** Background `#ffedd5`, border `1.5px dashed #f97316`, countdown text `#ea580c`.
 
 ### Venue & Court Cards
+
 - Clean surface container `#ffffff`, border `1px solid #e2e8f0`, border radius `1rem` (`16px`), overflow hidden.
 - Top media block (16:9) with rounded top corners, sports type tag pill anchored top-right (RTL), and price badge anchored top-left.
 - Footer row featuring live slot availability badge (e.g., «۴ سانس خالی امروز») styled with `turf-success` (`#10b981`).
 
 ### Input Fields & Search
+
 - Container: Height `44px`, background `#ffffff`, border `1px solid #cbd5e1`, radius `0.5rem`, text right-aligned.
 - Focus: Border `2px solid #0284c7`, shadow `0 0 0 3px rgba(2, 132, 199, 0.15)`.
 - RTL Icon Alignment: Search magnifiers and clear actions sit on the left; category filters and placeholder text align right.
 
 ### Checkboxes & Radios
+
 - **Checkbox:** `20px × 20px`, radius `4px`, border `2px solid #cbd5e1`. Checked: Background `#0284c7`, border `#0284c7` with white glyph.
 - **Radio:** `20px × 20px`, circular, border `2px solid #cbd5e1`. Selected: Border `#0284c7` with inner dot `#0284c7`.
 
 ### Sports Filter Chips
+
 - Capsule pill radius (`9999px`), padding `6px 14px`, inline gap `6px`.
 - Inactive: Background `#ffffff`, border `1px solid #cbd5e1`, text `#475569`.
 - Active: Background `#0284c7`, border `1px solid #0284c7`, text `#ffffff`. Sports icon rendered on the right side of the label.
