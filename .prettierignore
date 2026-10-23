@@ -1,0 +1,16 @@
+# Build outputs and caches: generated, not authored.
+.next/
+dist/
+out/
+coverage/
+.cache/
+node_modules/
+
+# Minified vendor bundles and the package-manager lockfile (bun rewrites it).
+*.min.js
+*.min.css
+bun.lock
+
+# Optional: if you generate docs or reports
+reports/
+tmp/

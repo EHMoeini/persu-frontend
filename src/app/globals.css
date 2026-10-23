@@ -1,0 +1,120 @@
+@import 'tailwindcss';
+
+/*
+ * Color tokens. Names are collapsed to <role>[-<variant>]: no "color-" or
+ * "text-" prefixes, so the utilities read as the token name (bg-surface,
+ * text-foreground, border-outline) instead of doubling (text-text-foreground).
+ */
+:root {
+  /* Surfaces */
+  --surface: #faf8ff;
+  --surface-card: #ffffff;
+  --surface-muted: #f2f3ff;
+  --surface-sunken: #dae2fd;
+  --surface-inverse: #283044;
+
+  /* Text and icons */
+  --foreground: #131b2e;
+  --foreground-muted: #3f4850;
+  --foreground-inverse: #eef0ff;
+  --on-accent: #ffffff;
+  --on-secondary-container: #5c2400;
+
+  /* Accents */
+  --primary: #006194;
+  --primary-container: #007bb9;
+  --primary-fixed: #cce5ff;
+  --primary-inverse: #93ccff;
+  --secondary: #9d4300;
+  --secondary-container: #fd761a;
+  --tertiary: #006577;
+  --tertiary-container: #008096;
+
+  /* Borders */
+  --outline: #707881;
+  --outline-muted: #bfc7d2;
+
+  /* Status */
+  --error: #ba1a1a;
+  --error-tint: #ffdad6;
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --reserved: #94a3b8;
+
+  /* Highlights */
+  --sky-light: #e0f2fe;
+  --tangerine-light: #ffedd5;
+  --focus: #38bdf8;
+
+  /* Translucent variants — `<token>-soft` follows its base color */
+  --primary-soft: color-mix(in srgb, var(--primary) 10%, transparent);
+  --primary-container-soft: color-mix(in srgb, var(--primary-container) 15%, transparent);
+  --outline-soft: color-mix(in srgb, var(--outline-muted) 30%, transparent);
+  --surface-card-soft: color-mix(in srgb, var(--surface-card) 50%, transparent);
+  --placeholder: color-mix(in srgb, var(--outline) 60%, transparent);
+}
+
+/* Exposes every token above to Tailwind so bg-*, text-* and border-* utilities
+   are generated (bg-primary, text-foreground, border-outline). */
+@theme inline {
+  /* Surfaces */
+  --color-surface: var(--surface);
+  --color-surface-card: var(--surface-card);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-inverse: var(--surface-inverse);
+
+  /* Text and icons */
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-inverse: var(--foreground-inverse);
+  --color-on-accent: var(--on-accent);
+  --color-on-secondary-container: var(--on-secondary-container);
+
+  /* Accents */
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-primary-inverse: var(--primary-inverse);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+
+  /* Borders */
+  --color-outline: var(--outline);
+  --color-outline-muted: var(--outline-muted);
+
+  /* Status */
+  --color-error: var(--error);
+  --color-error-tint: var(--error-tint);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-reserved: var(--reserved);
+
+  /* Highlights */
+  --color-sky-light: var(--sky-light);
+  --color-tangerine-light: var(--tangerine-light);
+  --color-focus: var(--focus);
+
+  /* Translucent variants */
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-container-soft: var(--primary-container-soft);
+  --color-outline-soft: var(--outline-soft);
+  --color-surface-card-soft: var(--surface-card-soft);
+  --color-placeholder: var(--placeholder);
+}
+
+@theme {
+  /* Typography: Vazirmatn only, never positive letter-spacing (Persian ligatures).
+     The family is self-hosted via public/fonts/vazirmatn, linked in the root layout. */
+  --font-sans: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+
+  /* Elevation — mirrors the Figma `elevation/subtle` and action shadows. */
+  --drop-shadow-subtle: 0 1px 1px rgb(0 0 0 / 0.05);
+  --shadow-action: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-input: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --inset-shadow-badge: inset 0 2px 4px rgb(0 0 0 / 0.05);
+}
