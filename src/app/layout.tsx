@@ -12,11 +12,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className="bg-surface font-sans text-foreground">
+      <body className="font-sans text-foreground">
         {/* eslint-disable-next-line @next/next/no-css-tags -- self-hosted Vazirmatn subsets live in /public/fonts/vazirmatn */}
         <link rel="stylesheet" href="/fonts/vazirmatn/css/vazirmatn.css" precedence="default" />
         <Providers>
-          <div className="mx-auto flex min-h-dvh w-full max-w-97.5 flex-col">{children}</div>
+          <div className="relative mx-auto flex min-h-dvh w-full max-w-97.5 flex-col bg-surface">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>

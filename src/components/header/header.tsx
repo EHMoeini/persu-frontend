@@ -7,7 +7,7 @@ import { IconChip } from '@/components/ui/icon-chip';
 /** Global app bar (root layout). */
 export function Header() {
   return (
-    <header className="fixed top-0 z-20 flex w-full items-center justify-between bg-white px-4 pt-3 pb-4 drop-shadow-subtle">
+    <header className="flex w-full items-center justify-between bg-surface-card px-4 pt-3 pb-4 drop-shadow-subtle">
       <BackButton />
       <div className="flex items-center gap-2.5">
         <div className="flex flex-col">

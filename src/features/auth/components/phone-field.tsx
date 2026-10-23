@@ -33,7 +33,7 @@ export function PhoneField({ value, onValueChange, hint, error, disabled }: TPho
 
       <div className="flex h-12 items-center rounded-xl bg-surface-muted ps-3 focus-within:ring-2 focus-within:ring-focus">
         <span className="flex h-7 shrink-0 items-center gap-1.5 rounded-lg bg-surface-card px-2.5 drop-shadow-subtle">
-          <span className="text-xs leading-4 font-bold text-foreground">+۹۸</span>
+          <span className="text-xs leading-4 font-bold text-foreground">۹۸+</span>
           <span className="flex h-3.5 w-5 shrink-0 flex-col overflow-clip rounded-sm">
             <span className="min-h-px w-full flex-1 bg-[#239f40]" />
             <span className="min-h-px w-full flex-1 bg-white" />

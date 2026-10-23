@@ -23,5 +23,8 @@ export const API_USE_MOCK = process.env.NEXT_PUBLIC_API_USE_MOCK !== 'false';
 export const API_ENDPOINTS = {
   auth: {
     checkUser: '/auth/check-user',
+    verifyOtp: '/auth/otp/verify',
+    sendOtp: '/auth/otp/send',
+    loginWithPassword: '/auth/password/login',
   },
 } as const;

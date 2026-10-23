@@ -21,7 +21,24 @@ export function normalizePhoneInput(input: string): string {
   return toLatinDigits(input).replace(/\D/g, '').slice(0, 11);
 }
 
+/** The OTP value kept in state: digits only, Latin, capped at 4. */
+export function normalizeOtpInput(input: string): string {
+  return toLatinDigits(input).replace(/\D/g, '').slice(0, 4);
+}
+
 /** Iranian mobile: 11 digits starting with 09. */
 export function isValidIranianMobile(phone: string): boolean {
   return /^09\d{9}$/.test(phone);
+}
+
+/** Masked display for a normalized phone number — "+۹۸ ۹۱۲ *** ۶۷۸۹". */
+export function maskPhone(phone: string): string {
+  return `+۹۸ ${toPersianDigits(phone.slice(1, 4))} *** ${toPersianDigits(phone.slice(7))}`;
+}
+
+/** mm:ss countdown in Persian digits, zero-padded. */
+export function formatCountdown(totalSeconds: number): string {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return toPersianDigits(`${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
 }
