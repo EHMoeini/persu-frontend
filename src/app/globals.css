@@ -23,6 +23,7 @@
   /* Accents */
   --primary: #006194;
   --primary-container: #007bb9;
+  --primary-fixed: #cce5ff;
   --primary-inverse: #93ccff;
   --secondary: #9d4300;
   --secondary-container: #fd761a;
@@ -74,6 +75,7 @@
   /* Accents */
   --color-primary: var(--primary);
   --color-primary-container: var(--primary-container);
+  --color-primary-fixed: var(--primary-fixed);
   --color-primary-inverse: var(--primary-inverse);
   --color-secondary: var(--secondary);
   --color-secondary-container: var(--secondary-container);
@@ -106,6 +108,12 @@
 }
 
 @theme {
-  /* Typography: Vazirmatn only, never positive letter-spacing (Persian ligatures). */
+  /* Typography: Vazirmatn only, never positive letter-spacing (Persian ligatures).
+     The family is self-hosted via public/fonts/vazirmatn, linked in the root layout. */
   --font-sans: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+
+  /* Elevation — mirrors the Figma `elevation/subtle` and action shadows. */
+  --drop-shadow-subtle: 0 1px 1px rgb(0 0 0 / 0.05);
+  --shadow-action: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --inset-shadow-badge: inset 0 2px 4px rgb(0 0 0 / 0.05);
 }

@@ -1,12 +1,12 @@
-import Footer from '@/components/footer/footer';
-import Header from '@/components/header/header';
+import type { ReactNode } from 'react';
 
-export default function ShellLayout({ children }: { children: React.ReactNode }) {
+import { Header } from '@/components/header/header';
+
+export default function ShellLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main>{children}</main>
-      <Footer />
+      <main className="flex flex-1 flex-col pt-16">{children}</main>
     </>
   );
 }

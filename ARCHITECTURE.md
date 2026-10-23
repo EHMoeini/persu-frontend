@@ -2,15 +2,17 @@
 
 ## 0. Baseline
 
-CNA + Bun + Biome only. All code in `apps/<app>/src/`. No new top-level dirs without updating this file.
+Next.js (App Router) + Tailwind v4 + Bun. All code in `src/`. Lint/format: ESLint + Prettier (Tailwind class order). No new top-level dirs without updating this file.
 
 ## 1. Routes: chrome separation
 
-- `src/app/layout.tsx` -> `providers.tsx`, `error.tsx`, `global-error.tsx`, `not-found.tsx`. No page UI here.
-- `src/app/(shell)/` = chromed pages only. `layout.tsx` is the ONLY place for Header/Footer/nav.
-- `src/app/(no-shell)/` = chromeless flows only (fullscreen, overlays, errors). `layout.tsx` must be passthrough `{children}`. No chrome imports allowed here.
+- `src/app/layout.tsx` -> the 390px centered app column. `providers.tsx`, `error.tsx`, `global-error.tsx`, `not-found.tsx` live alongside. No page UI here.
+- `src/app/(shell)/` = chromed pages. `layout.tsx` owns the `Header` and the `Footer`.
+- `src/app/(no-shell)/` = flow pages without shell chrome (fullscreen, overlays, errors). `layout.tsx` must be passthrough `{children}`.
+- `src/app/(auth)/` = auth-flow pages (Check User, Login, Register, OTP) — auth is part of the shell: `layout.tsx` renders the `Header` plus the legal note; pages stay content-only.
+- The `Header` renders in `(shell)` and `(auth)` layouts only — never in the root layout and never on `(no-shell)` pages.
 - New page? Decide shell first, then place under correct group. Never mix.
-- `src/middleware.ts` = cross-cutting request concerns only. `routes.config.cjs` = slug rewrites only.
+- `src/proxy.ts` = cross-cutting request concerns only. `routes.config.cjs` = slug rewrites only.
 
 ## 2. Features: verticals
 
@@ -35,4 +37,4 @@ CNA + Bun + Biome only. All code in `apps/<app>/src/`. No new top-level dirs wit
 
 ## 4. Verification
 
-`biome check .` + `tsc --noEmit` + `bun test` must pass. Every `.logic.ts` has co-located `.test.ts`.
+`bun run lint` + `bunx tsc --noEmit` + `bun run format:check` must pass. No test runner is wired up yet; pure logic still lives in `.logic.ts` files so tests can be added without refactoring.
