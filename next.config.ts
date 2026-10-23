@@ -3,12 +3,12 @@ import type { NextConfig } from 'next';
 import routesConfig from './routes.config.cjs';
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  output: 'standalone',
   /* config options here */
   experimental: {
     agentFeedback: true,
   },
-  cacheComponents: true,
+  cacheComponents: false,
   partialPrefetching: true,
   // Trailing slashes are normalized in proxy.ts so the redirect can be marked
   // no-store; the built-in redirect would run before proxy and stay cacheable.
