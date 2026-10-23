@@ -3,6 +3,7 @@ import type { NextConfig } from 'next';
 import routesConfig from './routes.config.cjs';
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   /* config options here */
   experimental: {
     agentFeedback: true,
