@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     agentFeedback: true,
   },
   cacheComponents: false,
-  partialPrefetching: true,
+  partialPrefetching: false,
   // Trailing slashes are normalized in proxy.ts so the redirect can be marked
   // no-store; the built-in redirect would run before proxy and stay cacheable.
   skipTrailingSlashRedirect: true,
