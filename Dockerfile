@@ -46,6 +46,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Link the container image to the GitHub repository for GitHub Container Registry (GHCR)
+LABEL org.opencontainers.image.source="https://github.com/EHMoeini/persu-frontend"
+LABEL org.opencontainers.image.description="Production Next.js frontend service for Persu"
+
 # Network configuration for container orchestration / reverse proxies
 # Binding to 0.0.0.0 ensures the frontend service is reachable within Docker networks
 ENV PORT=3000
