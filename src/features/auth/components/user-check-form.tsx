@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StaticImage } from '@/components/ui/static-image';
 
-import { useCheckUser } from '../auth.hook';
+import { useUserCheck } from '../auth.hook';
 import { isValidIranianMobile } from '../auth.logic';
 
 import { PhoneField } from './phone-field';
@@ -15,21 +15,21 @@ import { PhoneField } from './phone-field';
 const HINT_TEXT = 'کد تایید یکبار مصرف به این شماره پیامک خواهد شد.';
 const GENERIC_ERROR = 'مشکلی پیش آمد. لطفاً دوباره تلاش کنید.';
 
-/** The check-user card — phone entry that routes to login or register. */
-export function CheckUserForm() {
+/** The user-check card — phone entry that routes to login or register. */
+export function UserCheckForm({ initialPhone = '' }: { initialPhone?: string }) {
   const router = useRouter();
-  const [phone, setPhone] = useState('');
-  const checkUser = useCheckUser();
+  const [phone, setPhone] = useState(initialPhone);
+  const userCheck = useUserCheck();
   const isValid = isValidIranianMobile(phone);
 
   const handleSubmit = async () => {
-    if (!isValid || checkUser.isPending) return;
+    if (!isValid || userCheck.isPending) return;
 
     try {
-      const { exists } = await checkUser.mutateAsync(phone);
+      const { exists } = await userCheck.mutateAsync(phone);
       router.push(`${exists ? '/login' : '/register'}?phone=${phone}`);
     } catch {
-      // The failure state is rendered from `checkUser.isError` below.
+      // The failure state is rendered from `userCheck.isError` below.
     }
   };
 
@@ -40,13 +40,13 @@ export function CheckUserForm() {
           value={phone}
           onValueChange={setPhone}
           hint={HINT_TEXT}
-          error={checkUser.isError ? GENERIC_ERROR : null}
-          disabled={checkUser.isPending}
+          error={userCheck.isError ? GENERIC_ERROR : null}
+          disabled={userCheck.isPending}
         />
         <Button
           onClick={handleSubmit}
           disabled={!isValid}
-          loading={checkUser.isPending}
+          loading={userCheck.isPending}
           icon={
             <span className="relative block h-2.25 w-3 rotate-180">
               <StaticImage

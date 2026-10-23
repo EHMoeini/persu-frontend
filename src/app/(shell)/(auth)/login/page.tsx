@@ -27,7 +27,7 @@ async function LoginContent({ searchParams }: TLoginPageProps) {
   const { phone } = await searchParams;
 
   if (!phone || !isValidIranianMobile(phone)) {
-    redirect('/check-user');
+    redirect('/user-check');
   }
 
   return <LoginFlow phone={phone} />;

@@ -2,11 +2,22 @@
 
 import { useMutation } from '@tanstack/react-query';
 
-import { checkUser, loginWithPassword, sendOtp, verifyOtp } from './auth.client.endpoint';
+import {
+  loginWithPassword,
+  registerAccount,
+  sendOtp,
+  userCheck,
+  verifyOtp,
+} from './auth.client.endpoint';
 
 /** Runs the account-existence check for a phone number. */
-export function useCheckUser() {
-  return useMutation({ mutationFn: checkUser });
+export function useUserCheck() {
+  return useMutation({ mutationFn: userCheck });
+}
+
+/** Creates an account for a phone number. */
+export function useRegisterAccount() {
+  return useMutation({ mutationFn: registerAccount });
 }
 
 /** Verifies an OTP for a phone number. */

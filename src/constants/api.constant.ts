@@ -22,7 +22,8 @@ export const API_USE_MOCK = process.env.NEXT_PUBLIC_API_USE_MOCK !== 'false';
 /** Endpoint paths grouped per feature. Paths only — the base URL lives above. */
 export const API_ENDPOINTS = {
   auth: {
-    checkUser: '/auth/check-user',
+    userCheck: '/auth/user-check',
+    register: '/auth/register',
     verifyOtp: '/auth/otp/verify',
     sendOtp: '/auth/otp/send',
     loginWithPassword: '/auth/password/login',

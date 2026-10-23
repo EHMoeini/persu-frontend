@@ -35,9 +35,9 @@ export function PhoneField({ value, onValueChange, hint, error, disabled }: TPho
         <span className="flex h-7 shrink-0 items-center gap-1.5 rounded-lg bg-surface-card px-2.5 drop-shadow-subtle">
           <span className="text-xs leading-4 font-bold text-foreground">۹۸+</span>
           <span className="flex h-3.5 w-5 shrink-0 flex-col overflow-clip rounded-sm">
-            <span className="min-h-px w-full flex-1 bg-[#239f40]" />
+            <span className="min-h-px w-full flex-1 bg-success" />
             <span className="min-h-px w-full flex-1 bg-white" />
-            <span className="min-h-px w-full flex-1 bg-[#da0000]" />
+            <span className="min-h-px w-full flex-1 bg-error" />
           </span>
         </span>
 

@@ -1,11 +1,21 @@
 import { z } from 'zod';
 
-export const checkUserInputSchema = z.object({
+export const userCheckInputSchema = z.object({
   phone: z.string().regex(/^09\d{9}$/),
 });
 
-export const checkUserResponseSchema = z.object({
+export const userCheckResponseSchema = z.object({
   exists: z.boolean(),
+});
+
+export const registerInputSchema = z.object({
+  phone: z.string().regex(/^09\d{9}$/),
+  fullName: z.string().trim().min(1),
+  password: z.string().min(8),
+});
+
+export const registerResponseSchema = z.object({
+  registered: z.boolean(),
 });
 
 export const verifyOtpInputSchema = z.object({
@@ -34,8 +44,10 @@ export const loginWithPasswordResponseSchema = z.object({
   authenticated: z.boolean(),
 });
 
-export type TCheckUserInput = z.infer<typeof checkUserInputSchema>;
-export type TCheckUserResponse = z.infer<typeof checkUserResponseSchema>;
+export type TUserCheckInput = z.infer<typeof userCheckInputSchema>;
+export type TUserCheckResponse = z.infer<typeof userCheckResponseSchema>;
+export type TRegisterInput = z.infer<typeof registerInputSchema>;
+export type TRegisterResponse = z.infer<typeof registerResponseSchema>;
 export type TVerifyOtpInput = z.infer<typeof verifyOtpInputSchema>;
 export type TVerifyOtpResponse = z.infer<typeof verifyOtpResponseSchema>;
 export type TSendOtpInput = z.infer<typeof sendOtpInputSchema>;

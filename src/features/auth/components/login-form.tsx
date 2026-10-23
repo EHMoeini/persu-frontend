@@ -10,9 +10,10 @@ import { TextButton } from '@/components/ui/text-button';
 
 import { AUTH_COPY } from '../auth.copy';
 import { useSendOtp, useVerifyOtp } from '../auth.hook';
-import { formatCountdown, maskPhone } from '../auth.logic';
+import { maskPhone } from '../auth.logic';
 
 import { OtpInput } from './otp-input';
+import { ResendOtpRow } from './resend-otp-row';
 
 /** Seconds before the OTP can be resent — the design's starting countdown (۰۱:۴۵). */
 const RESEND_SECONDS = 105;
@@ -94,19 +95,7 @@ export function LoginForm({ phone, onUsePassword }: TLoginFormProps) {
             </p>
           ) : null}
 
-          <div className="flex items-center justify-between px-1">
-            <button
-              type="button"
-              onClick={handleResend}
-              disabled={countdown > 0 || sendOtp.isPending}
-              className="text-[11px] leading-4.25 text-primary disabled:cursor-not-allowed disabled:text-outline"
-            >
-              ارسال مجدد کد
-            </button>
-            <span className="text-[11px] leading-4.25 text-primary">
-              {formatCountdown(countdown)}
-            </span>
-          </div>
+          <ResendOtpRow countdown={countdown} onResend={handleResend} pending={sendOtp.isPending} />
         </div>
 
         <div className="pt-1">

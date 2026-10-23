@@ -1,5 +1,6 @@
 import type {
   TLoginWithPasswordResponse,
+  TRegisterResponse,
   TSendOtpResponse,
   TVerifyOtpResponse,
 } from './auth.schema';
@@ -9,23 +10,26 @@ import type {
  * Delete this module once the real API is live.
  */
 
-/** Numbers in this list resolve as existing accounts — everything else registers. */
-const REGISTERED_PHONES = ['09123456789'];
+/** Registered accounts and their passwords. */
+const ACCOUNTS = new Map<string, string>([['09123456789', '12345678']]);
 
 /** The only code that verifies in mock mode. */
 const VALID_OTP = '1234';
-
-/** The only password that authenticates in mock mode. */
-const VALID_PASSWORD = '12345678';
 
 /** Simulated latency so loading states behave like the real thing. */
 const LATENCY_MS = 600;
 
 const delay = () => new Promise((resolve) => setTimeout(resolve, LATENCY_MS));
 
-export async function mockCheckUser(phone: string) {
+export async function mockUserCheck(phone: string) {
   await delay();
-  return { exists: REGISTERED_PHONES.includes(phone) };
+  return { exists: ACCOUNTS.has(phone) };
+}
+
+export async function mockRegister(phone: string, password: string): Promise<TRegisterResponse> {
+  await delay();
+  ACCOUNTS.set(phone, password);
+  return { registered: true };
 }
 
 export async function mockVerifyOtp(code: string): Promise<TVerifyOtpResponse> {
@@ -43,5 +47,5 @@ export async function mockLoginWithPassword(
   password: string,
 ): Promise<TLoginWithPasswordResponse> {
   await delay();
-  return { authenticated: REGISTERED_PHONES.includes(phone) && password === VALID_PASSWORD };
+  return { authenticated: ACCOUNTS.get(phone) === password };
 }
