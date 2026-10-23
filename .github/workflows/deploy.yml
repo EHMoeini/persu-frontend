@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - production
+      - main
   workflow_dispatch:
 
 permissions:
@@ -16,10 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout production branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: production
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
