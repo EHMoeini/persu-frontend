@@ -1,47 +1,58 @@
 import { z } from 'zod';
 
+import type { NationalPhone } from './auth.phone';
+
+/**
+ * Canonical phone the endpoints accept: national 10 digits without the trunk
+ * `0`. Endpoints serialize it to the trunk-`0` wire form via `toWirePhone`.
+ */
+const nationalPhoneSchema = z
+    .string()
+    .regex(/^9\d{9}$/)
+    .transform((value) => value as NationalPhone);
+
 export const userCheckInputSchema = z.object({
-  phone: z.string().regex(/^09\d{9}$/),
+    phone: nationalPhoneSchema,
 });
 
 export const userCheckResponseSchema = z.object({
-  exists: z.boolean(),
+    exists: z.boolean(),
 });
 
 export const registerInputSchema = z.object({
-  phone: z.string().regex(/^09\d{9}$/),
-  fullName: z.string().trim().min(1),
-  password: z.string().min(8),
+    phone: nationalPhoneSchema,
+    fullName: z.string().trim().min(1),
+    password: z.string().min(8),
 });
 
 export const registerResponseSchema = z.object({
-  registered: z.boolean(),
+    registered: z.boolean(),
 });
 
 export const verifyOtpInputSchema = z.object({
-  phone: z.string().regex(/^09\d{9}$/),
-  code: z.string().regex(/^\d{4}$/),
+    phone: nationalPhoneSchema,
+    code: z.string().regex(/^\d{4}$/),
 });
 
 export const verifyOtpResponseSchema = z.object({
-  verified: z.boolean(),
+    verified: z.boolean(),
 });
 
 export const sendOtpInputSchema = z.object({
-  phone: z.string().regex(/^09\d{9}$/),
+    phone: nationalPhoneSchema,
 });
 
 export const sendOtpResponseSchema = z.object({
-  sent: z.boolean(),
+    sent: z.boolean(),
 });
 
 export const loginWithPasswordInputSchema = z.object({
-  phone: z.string().regex(/^09\d{9}$/),
-  password: z.string().min(1),
+    phone: nationalPhoneSchema,
+    password: z.string().min(1),
 });
 
 export const loginWithPasswordResponseSchema = z.object({
-  authenticated: z.boolean(),
+    authenticated: z.boolean(),
 });
 
 export type TUserCheckInput = z.infer<typeof userCheckInputSchema>;

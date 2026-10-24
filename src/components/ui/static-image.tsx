@@ -2,10 +2,10 @@
 import type { CSSProperties } from 'react';
 
 type TStaticImageProps = {
-  /** Path of a design asset served from `/public`. */
-  src: string;
-  className?: string;
-  style?: CSSProperties;
+    /** Path of a design asset served from `/public`. */
+    src: string;
+    className?: string;
+    style?: CSSProperties;
 };
 
 /**
@@ -16,5 +16,5 @@ type TStaticImageProps = {
  * so the `no-img-element` exemption lives in exactly one place.
  */
 export function StaticImage({ src, className, style }: TStaticImageProps) {
-  return <img alt="" src={src} className={className} style={style} />;
+    return <img alt="" src={src} className={className} style={style} />;
 }

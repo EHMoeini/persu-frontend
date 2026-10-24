@@ -18,13 +18,13 @@ Next.js (App Router) + Tailwind v4 + Bun. All code in `src/`. Lint/format: ESLin
 
 - Location: `src/features/<domain>/`. Self-contained; cross-feature imports go via shared layers, never direct.
 - Suffix contract (hard rule):
-  - `*.endpoint.ts` — server I/O only. Returns `{data,error}`. No transforms.
-  - `*.client.endpoint.ts` — browser I/O only.
-  - `*.query.ts` — fetch wrappers only.
-  - `*.hook.ts(x)` — hooks only.
-  - `*.logic.ts` — pure only. MUST NOT import http/next/navigation. Must run under `bun test`.
-  - `*.server.ts` — server-only helpers.
-  - `*.schema.ts` — validation. `*.models.ts` — types.
+    - `*.endpoint.ts` — server I/O only. Returns `{data,error}`. No transforms.
+    - `*.client.endpoint.ts` — browser I/O only.
+    - `*.query.ts` — fetch wrappers only.
+    - `*.hook.ts(x)` — hooks only.
+    - `*.logic.ts` — pure only. MUST NOT import http/next/navigation. Must run under `bun test`.
+    - `*.server.ts` — server-only helpers.
+    - `*.schema.ts` — validation. `*.models.ts` — types.
 - Tabbed entity: `components/<entity>-<tab>/` + `hooks/<entity>-<tab>.hook`.
 - Violation = reject: `.logic` importing I/O, `.endpoint` containing mapping.
 
