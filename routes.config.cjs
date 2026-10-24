@@ -10,14 +10,14 @@
 const TAB_TRANSLATIONS = {};
 
 function buildTabRewrites({ base, tabs }) {
-  return Object.entries(tabs).map(([localized, english]) => ({
-    source: `${base}/${localized}`,
-    destination: `${base}/${english}`,
-  }));
+    return Object.entries(tabs).map(([localized, english]) => ({
+        source: `${base}/${localized}`,
+        destination: `${base}/${english}`,
+    }));
 }
 
 function buildAllTabRewrites() {
-  return Object.values(TAB_TRANSLATIONS).flatMap(buildTabRewrites);
+    return Object.values(TAB_TRANSLATIONS).flatMap(buildTabRewrites);
 }
 
 module.exports = { TAB_TRANSLATIONS, buildTabRewrites, buildAllTabRewrites };

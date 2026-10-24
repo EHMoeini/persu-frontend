@@ -2,7 +2,7 @@
  * Returns true if running in the browser, false during SSR/Node.
  */
 export function isBrowser(): boolean {
-  return typeof window !== 'undefined' && typeof window.document !== 'undefined';
+    return typeof window !== 'undefined' && typeof window.document !== 'undefined';
 }
 
 /**
@@ -12,55 +12,55 @@ export function isBrowser(): boolean {
 export function getSecondsFromUTC(format?: 'number'): number;
 export function getSecondsFromUTC(format?: string): string | false;
 export function getSecondsFromUTC(format?: string): number | string | false {
-  if (typeof window === 'undefined') {
-    return false;
-  }
-  const seconds = new Date().getTimezoneOffset() * -60;
-  return format === 'number' ? seconds : seconds.toString();
+    if (typeof window === 'undefined') {
+        return false;
+    }
+    const seconds = new Date().getTimezoneOffset() * -60;
+    return format === 'number' ? seconds : seconds.toString();
 }
 
 /**
  * Replace all occurrences of a string.
  */
 export function replaceAll(str: string, find: string, replace: string): string {
-  return str.replace(new RegExp(find, 'g'), replace);
+    return str.replace(new RegExp(find, 'g'), replace);
 }
 
 export function urlEncode(key: string): string {
-  return encodeURIComponent(key);
+    return encodeURIComponent(key);
 }
 
 /**
  * Parses a `key=value; key=value` header into an object of numbers.
  */
 export function parseHeader(header: string): Record<string, number> | null {
-  if (!header) {
-    console.warn('header is not present');
-    return null;
-  }
-
-  const result: Record<string, number> = {};
-  for (const element of header.split('; ')) {
-    if (element) {
-      const [key, value] = element.split('=');
-      result[key] = +value;
+    if (!header) {
+        console.warn('header is not present');
+        return null;
     }
-  }
-  return result;
+
+    const result: Record<string, number> = {};
+    for (const element of header.split('; ')) {
+        if (element) {
+            const [key, value] = element.split('=');
+            result[key] = +value;
+        }
+    }
+    return result;
 }
 
 // Truncates text at the given limit without breaking a word.
 export function stringTruncate(text: string | undefined, limit: number, suffix = ''): string {
-  if (!text) return '';
-  if (text.length <= limit) return text;
+    if (!text) return '';
+    if (text.length <= limit) return text;
 
-  const cut = text.substring(0, limit);
-  const lastSpace = cut.lastIndexOf(' ');
-  return (lastSpace !== -1 ? cut.substring(0, lastSpace) : cut) + suffix;
+    const cut = text.substring(0, limit);
+    const lastSpace = cut.lastIndexOf(' ');
+    return (lastSpace !== -1 ? cut.substring(0, lastSpace) : cut) + suffix;
 }
 
 export function hasWebShareAPI(): boolean {
-  return typeof navigator !== 'undefined' && !!navigator.share;
+    return typeof navigator !== 'undefined' && !!navigator.share;
 }
 
 /**
@@ -69,37 +69,37 @@ export function hasWebShareAPI(): boolean {
  * concatenation keeps non-latin slugs readable instead of percent-encoded.
  */
 export function toAbsoluteShareUrl(url: string, origin: string): string {
-  return url.startsWith('/') ? origin + url : url;
+    return url.startsWith('/') ? origin + url : url;
 }
 
 export async function nativeShare(title: string, url: string): Promise<void> {
-  if (typeof navigator === 'undefined') return;
+    if (typeof navigator === 'undefined') return;
 
-  const shareUrl =
-    typeof window !== 'undefined' ? toAbsoluteShareUrl(url, window.location.origin) : url;
-  const shareText = `${title}\n${shareUrl}`;
+    const shareUrl =
+        typeof window !== 'undefined' ? toAbsoluteShareUrl(url, window.location.origin) : url;
+    const shareText = `${title}\n${shareUrl}`;
 
-  if (hasWebShareAPI() && typeof navigator.share === 'function') {
+    if (hasWebShareAPI() && typeof navigator.share === 'function') {
+        try {
+            // The Web Share API serializes `url`, which percent-encodes non-latin
+            // slugs in the receiving app. Text is handed over verbatim.
+            await navigator.share({ title, text: shareText });
+            return;
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+    }
+
     try {
-      // The Web Share API serializes `url`, which percent-encodes non-latin
-      // slugs in the receiving app. Text is handed over verbatim.
-      await navigator.share({ title, text: shareText });
-      return;
+        if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(shareText);
+        } else {
+            console.warn('Clipboard API not available');
+        }
     } catch (e) {
-      console.error(e);
-      return;
+        console.error(e);
     }
-  }
-
-  try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(shareText);
-    } else {
-      console.warn('Clipboard API not available');
-    }
-  } catch (e) {
-    console.error(e);
-  }
 }
 
 /**
@@ -107,26 +107,26 @@ export async function nativeShare(title: string, url: string): Promise<void> {
  * same-origin URLs only; anything else falls back.
  */
 export function pickSafeRedirect(
-  params: URLSearchParams,
-  fallback = '/',
+    params: URLSearchParams,
+    fallback = '/',
 ): { url: string; isExternal: boolean } {
-  const raw = params.get('from')?.trim() || '';
-  if (!raw) return { url: fallback, isExternal: false };
+    const raw = params.get('from')?.trim() || '';
+    if (!raw) return { url: fallback, isExternal: false };
 
-  if (raw.startsWith('/')) {
-    return { url: raw, isExternal: false };
-  }
-
-  try {
-    const u = new URL(raw, window.location.origin);
-    if (u.origin === window.location.origin) {
-      const relative = u.pathname + u.search + u.hash;
-      return { url: relative || fallback, isExternal: false };
+    if (raw.startsWith('/')) {
+        return { url: raw, isExternal: false };
     }
-    return { url: fallback, isExternal: false };
-  } catch {
-    return { url: fallback, isExternal: false };
-  }
+
+    try {
+        const u = new URL(raw, window.location.origin);
+        if (u.origin === window.location.origin) {
+            const relative = u.pathname + u.search + u.hash;
+            return { url: relative || fallback, isExternal: false };
+        }
+        return { url: fallback, isExternal: false };
+    } catch {
+        return { url: fallback, isExternal: false };
+    }
 }
 
 /**
@@ -134,5 +134,5 @@ export function pickSafeRedirect(
  * terminate the script element.
  */
 export function serializeJsonLd(value: unknown): string {
-  return JSON.stringify(value).replace(/</g, '\\u003c');
+    return JSON.stringify(value).replace(/</g, '\\u003c');
 }

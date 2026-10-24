@@ -1,8 +1,8 @@
 import type {
-  TLoginWithPasswordResponse,
-  TRegisterResponse,
-  TSendOtpResponse,
-  TVerifyOtpResponse,
+    TLoginWithPasswordResponse,
+    TRegisterResponse,
+    TSendOtpResponse,
+    TVerifyOtpResponse,
 } from './auth.schema';
 
 /**
@@ -22,30 +22,30 @@ const LATENCY_MS = 600;
 const delay = () => new Promise((resolve) => setTimeout(resolve, LATENCY_MS));
 
 export async function mockUserCheck(phone: string) {
-  await delay();
-  return { exists: ACCOUNTS.has(phone) };
+    await delay();
+    return { exists: ACCOUNTS.has(phone) };
 }
 
 export async function mockRegister(phone: string, password: string): Promise<TRegisterResponse> {
-  await delay();
-  ACCOUNTS.set(phone, password);
-  return { registered: true };
+    await delay();
+    ACCOUNTS.set(phone, password);
+    return { registered: true };
 }
 
 export async function mockVerifyOtp(code: string): Promise<TVerifyOtpResponse> {
-  await delay();
-  return { verified: code === VALID_OTP };
+    await delay();
+    return { verified: code === VALID_OTP };
 }
 
 export async function mockSendOtp(): Promise<TSendOtpResponse> {
-  await delay();
-  return { sent: true };
+    await delay();
+    return { sent: true };
 }
 
 export async function mockLoginWithPassword(
-  phone: string,
-  password: string,
+    phone: string,
+    password: string,
 ): Promise<TLoginWithPasswordResponse> {
-  await delay();
-  return { authenticated: ACCOUNTS.get(phone) === password };
+    await delay();
+    return { authenticated: ACCOUNTS.get(phone) === password };
 }

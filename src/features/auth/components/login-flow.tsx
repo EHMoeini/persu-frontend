@@ -14,22 +14,22 @@ type TLoginMode = 'otp' | 'password';
 
 /** Login screen header and card — the OTP/password mode switch lives here. */
 export function LoginFlow({ phone }: { phone: string }) {
-  const [mode, setMode] = useState<TLoginMode>('otp');
-  const isOtp = mode === 'otp';
+    const [mode, setMode] = useState<TLoginMode>('otp');
+    const isOtp = mode === 'otp';
 
-  return (
-    <>
-      <AuthSectionHeader
-        icon="/assets/icons/login-enter.svg"
-        title="ورود به حساب کاربری"
-        subtitle={isOtp ? OTP_SUBTITLE : PASSWORD_SUBTITLE}
-      />
+    return (
+        <>
+            <AuthSectionHeader
+                icon="/assets/icons/login-enter.svg"
+                title="ورود به حساب کاربری"
+                subtitle={isOtp ? OTP_SUBTITLE : PASSWORD_SUBTITLE}
+            />
 
-      {isOtp ? (
-        <LoginForm phone={phone} onUsePassword={() => setMode('password')} />
-      ) : (
-        <PasswordLoginForm phone={phone} onUseOtp={() => setMode('otp')} />
-      )}
-    </>
-  );
+            {isOtp ? (
+                <LoginForm phone={phone} onUsePassword={() => setMode('password')} />
+            ) : (
+                <PasswordLoginForm phone={phone} onUseOtp={() => setMode('otp')} />
+            )}
+        </>
+    );
 }
