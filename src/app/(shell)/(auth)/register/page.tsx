@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { AuthSectionHeader } from '@/components/auth/auth-section-header';
-import { isValidIranianMobile } from '@/features/auth/auth.logic';
+import { parsePhone } from '@/features/auth/auth.phone';
 import { RegisterForm } from '@/features/auth/components/register-form';
 
 export const metadata: Metadata = {
@@ -26,8 +26,9 @@ export default function RegisterPage({ searchParams }: TRegisterPageProps) {
 
 async function RegisterContent({ searchParams }: TRegisterPageProps) {
     const { phone } = await searchParams;
+    const parsedPhone = phone ? parsePhone(phone) : null;
 
-    if (!phone || !isValidIranianMobile(phone)) {
+    if (!parsedPhone) {
         redirect('/user-check');
     }
 
@@ -39,7 +40,7 @@ async function RegisterContent({ searchParams }: TRegisterPageProps) {
                 subtitle="برای رزرو آسان زمین‌ها و سالن‌های ورزشی ثبت‌نام کنید."
             />
 
-            <RegisterForm phone={phone} />
+            <RegisterForm phone={parsedPhone} />
         </>
     );
 }

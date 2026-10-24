@@ -11,12 +11,12 @@ import { TextButton } from '@/components/ui/text-button';
 
 import { AUTH_COPY } from '../auth.copy';
 import { useLoginWithPassword } from '../auth.hook';
-import { maskPhone } from '../auth.logic';
+import { formatPhone, type NationalPhone } from '../auth.phone';
 
 import { PasswordField } from './password-field';
 
 type TPasswordLoginFormProps = {
-    phone: string;
+    phone: NationalPhone;
     /** Switches the card back to OTP verification. */
     onUseOtp: () => void;
 };
@@ -68,7 +68,7 @@ export function PasswordLoginForm({ phone, onUseOtp }: TPasswordLoginFormProps) 
                         </label>
 
                         <span dir="ltr" className="text-xs leading-4 text-outline">
-                            {maskPhone(phone)}
+                            {formatPhone(phone, 'masked')}
                         </span>
                     </div>
 

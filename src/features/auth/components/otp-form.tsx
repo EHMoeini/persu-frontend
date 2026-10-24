@@ -9,7 +9,7 @@ import { StaticImage } from '@/components/ui/static-image';
 
 import { AUTH_COPY } from '../auth.copy';
 import { useSendOtp, useVerifyOtp } from '../auth.hook';
-import { toPersianDigits } from '../auth.logic';
+import { formatPhone, type NationalPhone } from '../auth.phone';
 
 import { OtpInput } from './otp-input';
 import { ResendOtpRow } from './resend-otp-row';
@@ -18,7 +18,7 @@ import { ResendOtpRow } from './resend-otp-row';
 const RESEND_SECONDS = 105;
 
 /** The OTP card — verifies the code sent to the phone number below. */
-export function OtpForm({ phone }: { phone: string }) {
+export function OtpForm({ phone }: { phone: NationalPhone }) {
     const router = useRouter();
     const labelId = useId();
     const errorId = useId();
@@ -94,7 +94,7 @@ export function OtpForm({ phone }: { phone: string }) {
                             </span>
                         </span>
                         <span className="text-sm font-semibold tracking-wider text-foreground">
-                            {toPersianDigits(phone)}
+                            {formatPhone(phone)}
                         </span>
                     </span>
                 </div>

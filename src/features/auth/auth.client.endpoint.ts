@@ -3,6 +3,7 @@
 import { API_ENDPOINTS, API_USE_MOCK } from '@/constants/api.constant';
 import { httpBaseUrlClient } from '@/utils/http/http-client';
 
+import { toWirePhone, type NationalPhone } from './auth.phone';
 import {
     mockUserCheck,
     mockLoginWithPassword,
@@ -11,10 +12,15 @@ import {
     mockVerifyOtp,
 } from './auth.mock';
 import {
+    loginWithPasswordInputSchema,
+    userCheckInputSchema,
     userCheckResponseSchema,
     loginWithPasswordResponseSchema,
+    registerInputSchema,
     registerResponseSchema,
+    sendOtpInputSchema,
     sendOtpResponseSchema,
+    verifyOtpInputSchema,
     verifyOtpResponseSchema,
     type TUserCheckResponse,
     type TLoginWithPasswordInput,
@@ -31,14 +37,16 @@ import {
  * POST /auth/user-check — whether an account exists for this phone number.
  * Served by the local mock while `NEXT_PUBLIC_API_USE_MOCK` is on.
  */
-export async function userCheck(phone: string): Promise<TUserCheckResponse> {
+export async function userCheck(phone: NationalPhone): Promise<TUserCheckResponse> {
+    const wire = toWirePhone(userCheckInputSchema.parse({ phone }).phone);
+
     if (API_USE_MOCK) {
-        return mockUserCheck(phone);
+        return mockUserCheck(wire);
     }
 
     const response = await httpBaseUrlClient.post<unknown>(
         API_ENDPOINTS.auth.userCheck,
-        { phone },
+        { phone: wire },
         undefined,
         { skipErrorRedirect: true },
     );
@@ -48,13 +56,16 @@ export async function userCheck(phone: string): Promise<TUserCheckResponse> {
 
 /** POST /auth/register — creates an account for a phone number. */
 export async function registerAccount(input: TRegisterInput): Promise<TRegisterResponse> {
+    const data = registerInputSchema.parse(input);
+    const phone = toWirePhone(data.phone);
+
     if (API_USE_MOCK) {
-        return mockRegister(input.phone, input.password);
+        return mockRegister(phone, data.password);
     }
 
     const response = await httpBaseUrlClient.post<unknown>(
         API_ENDPOINTS.auth.register,
-        input,
+        { ...data, phone },
         undefined,
         { skipErrorRedirect: true },
     );
@@ -64,13 +75,16 @@ export async function registerAccount(input: TRegisterInput): Promise<TRegisterR
 
 /** POST /auth/otp/verify — whether the OTP is correct for this phone number. */
 export async function verifyOtp(input: TVerifyOtpInput): Promise<TVerifyOtpResponse> {
+    const data = verifyOtpInputSchema.parse(input);
+    const phone = toWirePhone(data.phone);
+
     if (API_USE_MOCK) {
-        return mockVerifyOtp(input.code);
+        return mockVerifyOtp(data.code);
     }
 
     const response = await httpBaseUrlClient.post<unknown>(
         API_ENDPOINTS.auth.verifyOtp,
-        input,
+        { ...data, phone },
         undefined,
         { skipErrorRedirect: true },
     );
@@ -80,13 +94,16 @@ export async function verifyOtp(input: TVerifyOtpInput): Promise<TVerifyOtpRespo
 
 /** POST /auth/otp/send — (re)sends the OTP for this phone number. */
 export async function sendOtp(input: TSendOtpInput): Promise<TSendOtpResponse> {
+    const data = sendOtpInputSchema.parse(input);
+    const phone = toWirePhone(data.phone);
+
     if (API_USE_MOCK) {
         return mockSendOtp();
     }
 
     const response = await httpBaseUrlClient.post<unknown>(
         API_ENDPOINTS.auth.sendOtp,
-        input,
+        { phone },
         undefined,
         { skipErrorRedirect: true },
     );
@@ -98,13 +115,16 @@ export async function sendOtp(input: TSendOtpInput): Promise<TSendOtpResponse> {
 export async function loginWithPassword(
     input: TLoginWithPasswordInput,
 ): Promise<TLoginWithPasswordResponse> {
+    const data = loginWithPasswordInputSchema.parse(input);
+    const phone = toWirePhone(data.phone);
+
     if (API_USE_MOCK) {
-        return mockLoginWithPassword(input.phone, input.password);
+        return mockLoginWithPassword(phone, data.password);
     }
 
     const response = await httpBaseUrlClient.post<unknown>(
         API_ENDPOINTS.auth.loginWithPassword,
-        input,
+        { ...data, phone },
         undefined,
         { skipErrorRedirect: true },
     );

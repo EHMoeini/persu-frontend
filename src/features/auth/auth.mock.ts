@@ -11,7 +11,10 @@ import type {
  */
 
 /** Registered accounts and their passwords. */
-const ACCOUNTS = new Map<string, string>([['09123456789', '12345678']]);
+const ACCOUNTS = new Map<string, string>([
+    ['09123456789', '12345678'],
+    ['09134568726', '12345678'],
+]);
 
 /** The only code that verifies in mock mode. */
 const VALID_OTP = '1234';

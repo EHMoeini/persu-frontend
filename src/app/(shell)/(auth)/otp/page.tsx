@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 import { AuthSectionHeader } from '@/components/auth/auth-section-header';
-import { isValidIranianMobile } from '@/features/auth/auth.logic';
+import { parsePhone } from '@/features/auth/auth.phone';
 import { OtpForm } from '@/features/auth/components/otp-form';
 
 export const metadata: Metadata = {
@@ -26,8 +26,9 @@ export default function OtpPage({ searchParams }: TOtpPageProps) {
 
 async function OtpContent({ searchParams }: TOtpPageProps) {
     const { phone } = await searchParams;
+    const parsedPhone = phone ? parsePhone(phone) : null;
 
-    if (!phone || !isValidIranianMobile(phone)) {
+    if (!parsedPhone) {
         redirect('/user-check');
     }
 
@@ -39,7 +40,7 @@ async function OtpContent({ searchParams }: TOtpPageProps) {
                 subtitle="کد اعتبارسنجی پیامک شده به شماره زیر را وارد کنید"
             />
 
-            <OtpForm phone={phone} />
+            <OtpForm phone={parsedPhone} />
         </>
     );
 }

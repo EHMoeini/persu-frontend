@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card';
 import { StaticImage } from '@/components/ui/static-image';
 
 import { useUserCheck } from '../auth.hook';
-import { isValidIranianMobile } from '../auth.logic';
+import { parsePhone, type NationalPhone } from '../auth.phone';
 
 import { PhoneField } from './phone-field';
 
@@ -16,18 +16,19 @@ const HINT_TEXT = 'کد تایید یکبار مصرف به این شماره پ
 const GENERIC_ERROR = 'مشکلی پیش آمد. لطفاً دوباره تلاش کنید.';
 
 /** The user-check card — phone entry that routes to login or register. */
-export function UserCheckForm({ initialPhone = '' }: { initialPhone?: string }) {
+export function UserCheckForm({ initialPhone }: { initialPhone?: NationalPhone }) {
     const router = useRouter();
-    const [phone, setPhone] = useState(initialPhone);
+    const [phone, setPhone] = useState(initialPhone ?? '');
     const userCheck = useUserCheck();
-    const isValid = isValidIranianMobile(phone);
+    const isValid = parsePhone(phone) !== null;
 
     const handleSubmit = async () => {
-        if (!isValid || userCheck.isPending) return;
+        const parsed = parsePhone(phone);
+        if (!parsed || userCheck.isPending) return;
 
         try {
-            const { exists } = await userCheck.mutateAsync(phone);
-            router.push(`${exists ? '/login' : '/register'}?phone=${phone}`);
+            const { exists } = await userCheck.mutateAsync(parsed);
+            router.push(`${exists ? '/login' : '/register'}?phone=${parsed}`);
         } catch {
             // The failure state is rendered from `userCheck.isError` below.
         }

@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { AuthSectionHeader } from '@/components/auth/auth-section-header';
 
+import type { NationalPhone } from '../auth.phone';
+
 import { LoginForm } from './login-form';
 import { PasswordLoginForm } from './password-login-form';
 
@@ -13,7 +15,7 @@ const PASSWORD_SUBTITLE = 'کلمه عبور حساب کاربری خود را �
 type TLoginMode = 'otp' | 'password';
 
 /** Login screen header and card — the OTP/password mode switch lives here. */
-export function LoginFlow({ phone }: { phone: string }) {
+export function LoginFlow({ phone }: { phone: NationalPhone }) {
     const [mode, setMode] = useState<TLoginMode>('otp');
     const isOtp = mode === 'otp';
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { AuthSectionHeader } from '@/components/auth/auth-section-header';
-import { isValidIranianMobile } from '@/features/auth/auth.logic';
+import { parsePhone } from '@/features/auth/auth.phone';
 import { UserCheckForm } from '@/features/auth/components/user-check-form';
 
 export const metadata: Metadata = {
@@ -35,7 +35,7 @@ export default function UserCheckPage({ searchParams }: TUserCheckPageProps) {
 /** Reads the optional `phone` search param so the static shell above can prerender. */
 async function UserCheckContent({ searchParams }: TUserCheckPageProps) {
     const { phone } = await searchParams;
-    const initialPhone = phone && isValidIranianMobile(phone) ? phone : '';
+    const initialPhone = phone ? parsePhone(phone) : null;
 
-    return <UserCheckForm initialPhone={initialPhone} />;
+    return <UserCheckForm initialPhone={initialPhone ?? undefined} />;
 }

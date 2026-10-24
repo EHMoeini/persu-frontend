@@ -9,6 +9,7 @@ import { StaticImage } from '@/components/ui/static-image';
 
 import { AUTH_COPY } from '../auth.copy';
 import { useRegisterAccount } from '../auth.hook';
+import type { NationalPhone } from '../auth.phone';
 
 import { NameField } from './name-field';
 import { PasswordField } from './password-field';
@@ -17,7 +18,7 @@ import { TermsCheckbox } from './terms-checkbox';
 const PASSWORD_MIN_LENGTH = 8;
 
 /** The register card — creates the account, then hands off to OTP verification. */
-export function RegisterForm({ phone }: { phone: string }) {
+export function RegisterForm({ phone }: { phone: NationalPhone }) {
     const router = useRouter();
     const passwordId = useId();
     const [fullName, setFullName] = useState('');

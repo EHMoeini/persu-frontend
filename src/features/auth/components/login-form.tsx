@@ -10,7 +10,7 @@ import { TextButton } from '@/components/ui/text-button';
 
 import { AUTH_COPY } from '../auth.copy';
 import { useSendOtp, useVerifyOtp } from '../auth.hook';
-import { maskPhone } from '../auth.logic';
+import { formatPhone, type NationalPhone } from '../auth.phone';
 
 import { OtpInput } from './otp-input';
 import { ResendOtpRow } from './resend-otp-row';
@@ -19,7 +19,7 @@ import { ResendOtpRow } from './resend-otp-row';
 const RESEND_SECONDS = 105;
 
 type TLoginFormProps = {
-    phone: string;
+    phone: NationalPhone;
     /** Switches the card to password login. */
     onUsePassword: () => void;
 };
@@ -88,7 +88,7 @@ export function LoginForm({ phone, onUsePassword }: TLoginFormProps) {
                             </span>
                         </span>
                         <span className="text-xs leading-4 text-outline" dir="ltr">
-                            {maskPhone(phone)}
+                            {formatPhone(phone, 'masked')}
                         </span>
                     </div>
 

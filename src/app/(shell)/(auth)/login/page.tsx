@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
-import { isValidIranianMobile } from '@/features/auth/auth.logic';
+import { parsePhone } from '@/features/auth/auth.phone';
 import { LoginFlow } from '@/features/auth/components/login-flow';
 
 export const metadata: Metadata = {
@@ -25,10 +25,11 @@ export default function LoginPage({ searchParams }: TLoginPageProps) {
 
 async function LoginContent({ searchParams }: TLoginPageProps) {
     const { phone } = await searchParams;
+    const parsedPhone = phone ? parsePhone(phone) : null;
 
-    if (!phone || !isValidIranianMobile(phone)) {
+    if (!parsedPhone) {
         redirect('/user-check');
     }
 
-    return <LoginFlow phone={phone} />;
+    return <LoginFlow phone={parsedPhone} />;
 }

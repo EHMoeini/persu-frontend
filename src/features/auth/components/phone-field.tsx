@@ -5,7 +5,8 @@ import { useId } from 'react';
 import { FieldLabel } from '@/components/ui/field-label';
 import { HelperNote } from '@/components/ui/helper-note';
 
-import { normalizePhoneInput, toPersianDigits } from '../auth.logic';
+import { toPersianDigits } from '../auth.logic';
+import { toPhoneDraft } from '../auth.phone';
 
 type TPhoneFieldProps = {
     /** Normalized Latin-digit value (what gets submitted). */
@@ -47,9 +48,9 @@ export function PhoneField({ value, onValueChange, hint, error, disabled }: TPho
                     type="tel"
                     inputMode="tel"
                     autoComplete="tel-national"
-                    placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+                    placeholder="۹۱۲۳۴۵۶۷۸۹"
                     value={toPersianDigits(value)}
-                    onChange={(event) => onValueChange(normalizePhoneInput(event.target.value))}
+                    onChange={(event) => onValueChange(toPhoneDraft(event.target.value))}
                     disabled={disabled}
                     aria-invalid={error ? true : undefined}
                     aria-describedby={error ? errorId : hint ? hintId : undefined}
