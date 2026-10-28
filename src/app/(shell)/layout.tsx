@@ -1,6 +1,5 @@
-import type { ReactNode } from 'react';
-
 import { Header } from '@/components/header/header';
+import type { ReactNode } from 'react';
 
 export default function ShellLayout({ children }: { children: ReactNode }) {
     return (

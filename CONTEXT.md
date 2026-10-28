@@ -39,3 +39,21 @@ _Avoid_: sign in, log in
 **Register**:
 The flow that creates an Account for a Phone Number that does not have one yet.
 _Avoid_: sign up, signup, enrolment
+
+### Venues and booking
+
+**Venue**:
+A sports facility listed on Persu that offers one or more bookable Courts. UI term: مجموعه ورزشی.
+_Avoid_: club, facility
+
+**Court**:
+A bookable playing surface at a Venue — a football pitch, volleyball court, tennis court, futsal hall, padel court, etc. UI term: زمین / سالن.
+_Avoid_: field, location
+
+**Time Slot**:
+A fixed date and time interval on a Court that a User can book. UI term: سانس.
+_Avoid_: session, appointment
+
+**Booking**:
+A User's confirmed reservation of a Time Slot. UI term: رزرو.
+_Avoid_: order, ticket

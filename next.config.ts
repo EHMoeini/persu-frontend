@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
     turbopack: {
         rules: {
             '*.css': {
+                // CSS modules must go through Turbopack's built-in module
+                // transform, otherwise their class-name exports are empty.
+                condition: { not: { path: '*.module.css' } },
                 loaders: ['@tailwindcss/turbopack'],
                 as: '*.css',
             },
