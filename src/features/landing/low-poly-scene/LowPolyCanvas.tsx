@@ -2,54 +2,39 @@
 
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { MathUtils, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import { buildFootballScene } from './buildScene';
-import { createDropController } from './dropController';
-import { createPitchIdleController } from './idleController';
-import { MAX_PIXEL_RATIO, type CameraConfig, type TimingConfig } from './sceneConfig';
-import type { ScenePhase, StageStore } from './stageStore';
-import styles from './football-scene.module.css';
 
-export type FootballCanvasProps = {
-    store: StageStore;
+import { MAX_PIXEL_RATIO, type CameraConfig } from './engineConfig';
+import { createIdleController } from './idleController';
+import type { LowPolyModel } from './types';
+import styles from './low-poly-scene.module.css';
+
+export type LowPolyCanvasProps = {
+    build: () => LowPolyModel;
     camera: CameraConfig;
-    /** Read once at mount. */
-    timing: TimingConfig;
-    /** Subtle pitch idle motion. Default true; reduced-motion callers pass false. */
+    /** Subtle breathing and random twists. Default true. */
     idle?: boolean;
-    onReady?: () => void;
     onError?: (error: unknown) => void;
 };
 
 /**
- * Owns the WebGL renderer. With idle motion it paints at a capped rate; without
- * it (reduced motion), frames are drawn only on resize, phase change and while
- * a drop runs. Hidden tabs stop painting.
+ * Owns the WebGL renderer for a fully assembled low-poly model.
+ *
+ * Idle frames are capped at ~30fps and pause while the scene is off-screen or
+ * the tab is hidden. With idle off (reduced motion), frames are drawn only on
+ * resize and when the model comes back into view.
  *
  * Loaded through next/dynamic with ssr: false, so three.js never reaches the
- * server or desktop bundles.
+ * server bundle.
  */
-export default function FootballCanvas({
-    store,
-    camera,
-    timing,
-    idle = true,
-    onReady,
-    onError,
-}: FootballCanvasProps) {
+export default function LowPolyCanvas({ build, camera, idle = true, onError }: LowPolyCanvasProps) {
     const hostRef = useRef<HTMLDivElement>(null);
-    const latest = useRef({ camera, timing, idle, onReady, onError });
-    const setCameraRef = useRef<((config: CameraConfig) => void) | null>(null);
+    const latest = useRef({ idle, onError });
     const requestRenderRef = useRef<() => void>(() => {});
 
     useLayoutEffect(() => {
-        latest.current = { camera, timing, idle, onReady, onError };
+        latest.current = { idle, onError };
     });
 
-    useEffect(() => {
-        setCameraRef.current?.(camera);
-    }, [camera]);
-
-    // Idle can be toggled by reduced-motion changes without remounting.
     useEffect(() => {
         requestRenderRef.current();
     }, [idle]);
@@ -74,38 +59,30 @@ export default function FootballCanvas({
         host.appendChild(canvas);
 
         const scene = new Scene();
-        const football = buildFootballScene();
-        scene.add(football.root);
+        const model = build();
+        scene.add(model.root);
         const cam = new PerspectiveCamera(40, 1, 0.5, 150);
-        const drops = createDropController(football, latest.current.timing);
-        const pitchIdle = createPitchIdleController(football.pitch);
-        let cameraConfig = latest.current.camera;
+        const modelIdle = createIdleController(model.content);
 
         let frame = 0;
-        let ready = false;
+        let inView = false;
         let lastPaint = 0;
         const render = (time: number) => {
             frame = 0;
             const now = time / 1000;
-            const idling = Boolean(latest.current.idle) && !document.hidden;
-            const moving = drops.update(now);
+            const idling = Boolean(latest.current.idle) && inView && !document.hidden;
 
-            // Idle motion is slow enough to paint at ~30fps; drops stay fluid.
-            if (idling && !moving && time - lastPaint < 1000 / 30) {
+            // Idle motion is slow enough to paint at ~30fps.
+            if (idling && time - lastPaint < 1000 / 30) {
                 requestRender();
                 return;
             }
-            if (idling) pitchIdle.apply(now);
-            else pitchIdle.reset();
+            if (idling) modelIdle.apply(now);
+            else modelIdle.reset();
 
             renderer.render(scene, cam);
             lastPaint = time;
-            if (!ready) {
-                ready = true;
-                host.dataset.ready = 'true';
-                latest.current.onReady?.();
-            }
-            if (moving || idling) requestRender();
+            if (idling) requestRender();
         };
         const requestRender = () => {
             if (!frame) frame = requestAnimationFrame(render);
@@ -116,23 +93,21 @@ export default function FootballCanvas({
             const height = host.clientHeight;
             if (!width || !height) return;
             renderer.setSize(width, height, false);
-            fitCamera(cam, cameraConfig, width / height);
+            fitCamera(cam, camera, width / height);
             requestRender();
         };
         const resizeObserver = new ResizeObserver(layout);
         resizeObserver.observe(host);
         layout();
 
-        const sync = (phase: ScenePhase, animate: boolean) => {
-            const now = performance.now() / 1000;
-            if (latest.current.idle && !document.hidden) pitchIdle.apply(now);
-            else pitchIdle.reset();
-            drops.apply(phase, animate, cam, now);
-            requestRender();
-        };
-        // Mounting late (or remounting after a resize) restores the current phase instantly.
-        sync(store.getPhase(), false);
-        const unsubscribe = store.subscribe(sync);
+        const intersectionObserver = new IntersectionObserver(
+            ([entry]) => {
+                inView = entry.isIntersecting;
+                if (inView) requestRender();
+            },
+            { rootMargin: '120px' },
+        );
+        intersectionObserver.observe(host);
 
         const onContextLost = (event: Event) => {
             event.preventDefault();
@@ -147,35 +122,29 @@ export default function FootballCanvas({
         };
         document.addEventListener('visibilitychange', onVisibility);
 
-        setCameraRef.current = (config) => {
-            cameraConfig = config;
-            layout();
-        };
         requestRenderRef.current = requestRender;
 
         return () => {
-            setCameraRef.current = null;
             requestRenderRef.current = () => {};
-            unsubscribe();
             resizeObserver.disconnect();
+            intersectionObserver.disconnect();
             cancelAnimationFrame(frame);
             document.removeEventListener('visibilitychange', onVisibility);
             canvas.removeEventListener('webglcontextlost', onContextLost);
             canvas.removeEventListener('webglcontextrestored', requestRender);
-            football.dispose();
+            model.dispose();
             renderer.dispose();
             renderer.forceContextLoss();
             canvas.remove();
-            delete host.dataset.ready;
         };
-    }, [store]);
+    }, [build, camera]);
 
     return <div ref={hostRef} className={styles.canvasHost} />;
 }
 
 function fitCamera(cam: PerspectiveCamera, config: CameraConfig, aspect: number) {
     // Widen the vertical FOV on narrow screens so the horizontal FOV never drops
-    // below `minHorizontalFov` and the whole pitch stays in frame.
+    // below `minHorizontalFov` and the whole model stays in frame.
     const minVertical =
         2 * Math.atan(Math.tan(MathUtils.degToRad(config.minHorizontalFov) / 2) / aspect);
     cam.fov = Math.max(config.fov, MathUtils.radToDeg(minVertical));

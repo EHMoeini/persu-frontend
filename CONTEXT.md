@@ -47,7 +47,7 @@ A sports facility listed on Persu that offers one or more bookable Courts. UI te
 _Avoid_: club, facility
 
 **Court**:
-A bookable playing surface at a Venue — a football pitch, futsal hall, padel court, etc. UI term: زمین / سالن.
+A bookable playing surface at a Venue — a football pitch, volleyball court, tennis court, futsal hall, padel court, etc. UI term: زمین / سالن.
 _Avoid_: field, location
 
 **Time Slot**:

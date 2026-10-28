@@ -1,22 +1,22 @@
 import type { Object3D } from 'three';
 
-import { IDLE } from './sceneConfig';
+import { IDLE } from './engineConfig';
 
 export type IdleController = {
-    /** Applies the idle breath/twist to the pitch for this frame. */
+    /** Applies the idle breath/twist to the model for this frame. */
     apply: (now: number) => void;
-    /** Restores the base pitch transform when idle motion is off. */
+    /** Restores the base model transform when idle motion is off. */
     reset: () => void;
 };
 
 /**
- * A very subtle idle animation on the pitch group itself: it floats up and down
+ * A very subtle idle animation on the model group itself: it floats up and down
  * and occasionally twists a degree or so around its centre. Lights stay fixed,
- * so the pitch catches the light differently as it moves.
+ * so the model catches the light differently as it moves.
  */
-export function createPitchIdleController(pitch: Object3D): IdleController {
-    const baseY = pitch.position.y;
-    const baseRotationY = pitch.rotation.y;
+export function createIdleController(content: Object3D): IdleController {
+    const baseY = content.position.y;
+    const baseRotationY = content.rotation.y;
 
     let twist = 0;
     let twistFrom = 0;
@@ -42,9 +42,9 @@ export function createPitchIdleController(pitch: Object3D): IdleController {
             const eased = progress * progress * (3 - 2 * progress);
             twist = twistFrom + (twistTo - twistFrom) * eased;
 
-            pitch.position.y = baseY + Math.sin(now * IDLE.breathSpeed) * IDLE.breathAmplitude;
-            pitch.rotation.y = baseRotationY + twist;
-            pitch.updateMatrixWorld();
+            content.position.y = baseY + Math.sin(now * IDLE.breathSpeed) * IDLE.breathAmplitude;
+            content.rotation.y = baseRotationY + twist;
+            content.updateMatrixWorld();
         },
         reset() {
             twist = 0;
@@ -52,9 +52,9 @@ export function createPitchIdleController(pitch: Object3D): IdleController {
             twistTo = 0;
             twistStart = 0;
             nextTwistAt = 0;
-            pitch.position.y = baseY;
-            pitch.rotation.y = baseRotationY;
-            pitch.updateMatrixWorld();
+            content.position.y = baseY;
+            content.rotation.y = baseRotationY;
+            content.updateMatrixWorld();
         },
     };
 }
