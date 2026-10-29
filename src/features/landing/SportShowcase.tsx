@@ -17,8 +17,7 @@ export function SportShowcase() {
                     همه‌ی زمین‌ها، یک‌جا
                 </h1>
                 <p className="mt-2 max-w-sm text-sm leading-6 text-foreground-muted">
-                    فوتبال، والیبال یا تنیس؛ زمین مورد علاقه‌ات را پیدا کن و سانست را در چند ثانیه
-                    رزرو کن.
+                    زمین مورد علاقه‌ات را پیدا کن و سانست را در چند ثانیه رزرو کن.
                 </p>
                 <Link
                     href="/user-check"
