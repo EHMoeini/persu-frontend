@@ -1,0 +1,3 @@
+# Auth pages live in the no-shell group behind a back-only bar
+
+Auth screens are a focused, fullscreen flow and must not show the global brand Header or Footer. We moved `src/app/(shell)/(auth)/` to `src/app/(no-shell)/(auth)/` and made that group's layout own a sticky `AuthHeader` containing only the back control, alongside the existing legal note. This supersedes ADR 0001's top-level `(auth)` group with a brand app bar: back is the only chrome every auth screen needs. Keeping auth inside `(shell)` and relying on the global Header was rejected because it reintroduces brand chrome the flow does not use.

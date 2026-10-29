@@ -9,8 +9,8 @@ Next.js (App Router) + Tailwind v4 + Bun. All code in `src/`. Lint/format: ESLin
 - `src/app/layout.tsx` -> the 390px centered app column. `providers.tsx`, `error.tsx`, `global-error.tsx`, `not-found.tsx` live alongside. No page UI here.
 - `src/app/(shell)/` = chromed pages. `layout.tsx` owns the `Header` and the `Footer`.
 - `src/app/(no-shell)/` = flow pages without shell chrome (fullscreen, overlays, errors). `layout.tsx` must be passthrough `{children}`.
-- `src/app/(auth)/` = auth-flow pages (Check User, Login, Register, OTP) — auth is part of the shell: `layout.tsx` renders the `Header` plus the legal note; pages stay content-only.
-- The `Header` renders in `(shell)` and `(auth)` layouts only — never in the root layout and never on `(no-shell)` pages.
+- `src/app/(no-shell)/(auth)/` = auth-flow pages (Check User, Login, Register, OTP, Forgot Password) — a fullscreen flow, not part of the shell. Its `layout.tsx` owns the sticky `AuthHeader` (a back control only) plus the legal note; pages stay content-only.
+- The `Header` renders in `(shell)` only — never in the root layout and never under `(no-shell)`.
 - New page? Decide shell first, then place under correct group. Never mix.
 - `src/proxy.ts` = cross-cutting request concerns only. `routes.config.cjs` = slug rewrites only.
 
