@@ -19,6 +19,7 @@ export type CarouselProps = {
     className?: string;
     /** Extra classes for the horizontal scrolling viewport. */
     viewportClassName?: string;
+    showSlides?: boolean;
 };
 
 /**
@@ -33,6 +34,7 @@ export function Carousel({
     autoplayInterval = 5000,
     className,
     viewportClassName,
+    showSlides = false,
 }: CarouselProps) {
     const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
     const scrollerRef = useRef<HTMLDivElement>(null);
@@ -110,7 +112,7 @@ export function Carousel({
                 aria-roledescription="carousel"
                 aria-label={ariaLabel}
                 tabIndex={0}
-                className={`flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto overscroll-x-contain focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus [&::-webkit-scrollbar]:hidden ${
+                className={`flex snap-x snap-mandatory scrollbar-none overflow-x-auto overscroll-x-contain focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus [&::-webkit-scrollbar]:hidden ${
                     viewportClassName ?? ''
                 }`}
             >
@@ -130,7 +132,7 @@ export function Carousel({
                 ))}
             </div>
 
-            {slides.length > 1 && (
+            {showSlides && slides.length > 1 && (
                 <div className="mt-3 flex items-center justify-center gap-1.5">
                     {slides.map((slide, index) => (
                         <button

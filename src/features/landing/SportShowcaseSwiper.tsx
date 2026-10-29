@@ -50,6 +50,7 @@ export function SportShowcaseSwiper() {
             ariaLabel="نمایش سه‌بعدی زمین‌های ورزشی"
             autoplayInterval={AUTOPLAY_INTERVAL_MS}
             viewportClassName="pb-4"
+            className="rounded-xl bg-surface-sunken"
         />
     );
 }

@@ -7,32 +7,32 @@
  */
 :root {
     /* Surfaces */
-    --surface: #f4fbf9;
+    --surface: #faf8ff;
     --surface-card: #ffffff;
-    --surface-muted: #e6f7f3;
-    --surface-sunken: #dff2ed;
-    --surface-inverse: #233330;
+    --surface-muted: #f2f3ff;
+    --surface-sunken: #dae2fd;
+    --surface-inverse: #283044;
 
     /* Text and icons */
-    --foreground: #132320;
-    --foreground-muted: #3d4947;
-    --foreground-inverse: #e2f5ef;
+    --foreground: #131b2e;
+    --foreground-muted: #3f4850;
+    --foreground-inverse: #eef0ff;
     --on-accent: #ffffff;
-    --on-secondary-container: #007164;
+    --on-secondary-container: #5c2400;
 
     /* Accents */
-    --primary: #0d9488;
-    --primary-container: #008378;
-    --primary-fixed: #ccfbf1;
-    --primary-inverse: #6bd8cb;
-    --secondary: #006b5e;
-    --secondary-container: #6ef9e2;
-    --tertiary: #134e4a;
-    --tertiary-container: #487e79;
+    --primary: #006194;
+    --primary-container: #007bb9;
+    --primary-fixed: #cce5ff;
+    --primary-inverse: #93ccff;
+    --secondary: #9d4300;
+    --secondary-container: #fd761a;
+    --tertiary: #006577;
+    --tertiary-container: #008096;
 
     /* Borders */
-    --outline: #6d7a77;
-    --outline-muted: #ccede5;
+    --outline: #707881;
+    --outline-muted: #bfc7d2;
 
     /* Status */
     --error: #ba1a1a;
@@ -40,12 +40,12 @@
     --danger: #ef4444;
     --success: #10b981;
     --warning: #f59e0b;
-    --reserved: #9ad1cb;
+    --reserved: #94a3b8;
 
     /* Highlights */
-    --mint-light: #e6f7f3;
-    --pistachio-light: #d7fbf2;
-    --focus: #5eead4;
+    --sky-light: #e0f2fe;
+    --tangerine-light: #ffedd5;
+    --focus: #38bdf8;
 
     /* Translucent variants — `<token>-soft` follows its base color */
     --primary-soft: color-mix(in srgb, var(--primary) 10%, transparent);
@@ -95,8 +95,8 @@
     --color-reserved: var(--reserved);
 
     /* Highlights */
-    --color-mint-light: var(--mint-light);
-    --color-pistachio-light: var(--pistachio-light);
+    --color-sky-light: var(--sky-light);
+    --color-tangerine-light: var(--tangerine-light);
     --color-focus: var(--focus);
 
     /* Translucent variants */
@@ -112,9 +112,9 @@
      The family is self-hosted via public/fonts/vazirmatn, linked in the root layout. */
     --font-sans: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
 
-    /* Elevation — mint-tinted ambient diffusion from the Mint Kinetic system. */
-    --drop-shadow-subtle: 0 1px 1px rgb(19 35 32 / 0.04);
-    --shadow-action: 0 4px 12px -2px rgb(13 148 136 / 0.16), 0 2px 6px -1px rgb(19 35 32 / 0.06);
-    --shadow-input: 0 1px 2px 0 rgb(19 35 32 / 0.04);
-    --inset-shadow-badge: inset 0 2px 4px rgb(19 35 32 / 0.05);
+    /* Elevation — mirrors the Figma `elevation/subtle` and action shadows. */
+    --drop-shadow-subtle: 0 1px 1px rgb(0 0 0 / 0.05);
+    --shadow-action: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-input: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --inset-shadow-badge: inset 0 2px 4px rgb(0 0 0 / 0.05);
 }

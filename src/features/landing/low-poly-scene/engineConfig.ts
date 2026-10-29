@@ -38,7 +38,7 @@ export type CameraConfig = {
  */
 export const DEFAULT_CAMERA: CameraConfig = {
     position: [8.92, 16.15, 23.98],
-    target: [-1.2, -2.4, -0.4],
+    target: [-2.2, -2.4, -0.4],
     fov: 40,
     minHorizontalFov: 36,
 };
