@@ -16,6 +16,7 @@ import {
     MeshLambertMaterial,
     Object3D,
     Shape,
+    SphereGeometry,
     TorusGeometry,
     Vector3,
 } from 'three';
@@ -221,6 +222,48 @@ export function buildPlayerGeometry({
     parts.forEach((p) => p.dispose());
     if (scale !== 1) merged.scale(scale, scale, scale);
     return merged;
+}
+
+/**
+ * Faceted volleyball: six longitudinal sections, each split into three
+ * latitude panels, cycling through white, blue and yellow. The flat-shaded
+ * colour breaks read as the stitched panel seams.
+ */
+export function buildVolleyballGeometry(
+    radius: number,
+    white: string,
+    blue: string,
+    yellow: string,
+) {
+    const sphere = new SphereGeometry(radius, 24, 12);
+    const geo = sphere.toNonIndexed();
+    sphere.dispose();
+    geo.deleteAttribute('uv');
+
+    const pos = geo.getAttribute('position');
+    const colors = new Float32Array(pos.count * 3);
+    const palette = [new Color(blue), new Color(white), new Color(yellow)];
+    const a = new Vector3();
+    const b = new Vector3();
+    const c = new Vector3();
+
+    for (let i = 0; i < pos.count; i += 3) {
+        a.fromBufferAttribute(pos, i);
+        b.fromBufferAttribute(pos, i + 1);
+        c.fromBufferAttribute(pos, i + 2);
+        const centroid = a.add(b).add(c).divideScalar(3);
+
+        const longitude = Math.atan2(centroid.z, centroid.x);
+        const latitude = Math.asin(Math.min(1, Math.max(-1, centroid.y / radius)));
+        const section = Math.floor(((longitude + Math.PI) / (2 * Math.PI)) * 6) % 6;
+        const band = Math.min(2, Math.max(0, Math.floor(((latitude + Math.PI / 2) / Math.PI) * 3)));
+        const col = palette[(section + band) % 3];
+
+        for (let k = 0; k < 3; k++) colors.set([col.r, col.g, col.b], (i + k) * 3);
+    }
+
+    geo.setAttribute('color', new Float32BufferAttribute(colors, 3));
+    return geo;
 }
 
 /** Faceted icosphere; faces around the 12 icosahedron vertices form dark panels. */

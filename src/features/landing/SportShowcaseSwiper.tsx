@@ -21,7 +21,6 @@ function SceneStage({ children }: { children?: ReactNode }) {
 }
 
 export function SportShowcaseSwiper() {
-    const isMobile = useMediaQuery('(max-width: 767.98px)');
     const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
 
     const slides = useMemo<CarouselSlide[]>(() => {
@@ -34,15 +33,13 @@ export function SportShowcaseSwiper() {
         return scenes.map(({ id, label, Scene }) => ({
             id,
             label,
-            content: isMobile ? (
+            content: (
                 <SceneStage>
                     <Scene idle={!reduceMotion} />
                 </SceneStage>
-            ) : (
-                <SceneStage />
             ),
         }));
-    }, [isMobile, reduceMotion]);
+    }, [reduceMotion]);
 
     return (
         <Carousel
@@ -50,7 +47,7 @@ export function SportShowcaseSwiper() {
             ariaLabel="نمایش سه‌بعدی زمین‌های ورزشی"
             autoplayInterval={AUTOPLAY_INTERVAL_MS}
             viewportClassName="pb-4"
-            className="rounded-xl bg-surface-sunken"
+            className="w-full"
         />
     );
 }

@@ -122,8 +122,8 @@ target: [1.2, -1.0, -0.4],
 
 ## Integration notes
 
-- The landing page renders these inside a shared carousel in the mobile hero at the top of the page. The desktop
-  layout keeps its existing sign-in stage and never mounts the canvases.
+- The landing page renders these inside a shared carousel in the hero at the top of the page, for every viewport.
+  The hero viewport is a square surface; the 6:5 stage is centered inside it.
 - The carousel is `src/components/ui/carousel.tsx`; it handles swipe, timed advance, pagination, reduced motion and
   off-screen pausing, so the same swiper can be reused elsewhere. The landing adds bottom padding to each slide and
   passes `viewportClassName="pb-4"` so the horizontal scroller's clip edge never cuts the slab's near corner.

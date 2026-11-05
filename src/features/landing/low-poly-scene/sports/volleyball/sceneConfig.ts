@@ -54,6 +54,7 @@ export const COLORS = {
     boots: '#1c1d24',
     ballLight: '#f8fafc',
     ballDark: '#1d4ed8',
+    ballYellow: '#f5c542',
     teams: {
         blue: { shirt: '#2f6ad8', shorts: '#f1f1ec', socks: '#2f6ad8' },
         red: { shirt: '#d8433a', shorts: '#f1f1ec', socks: '#d8433a' },
