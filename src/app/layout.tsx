@@ -20,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
                     precedence="default"
                 />
                 <Providers>
-                    <div className="relative mx-auto flex min-h-dvh w-full max-w-97.5 flex-col bg-surface">
+                    <div className="app-grid relative mx-auto flex min-h-dvh w-full max-w-97.5 flex-col bg-surface">
                         {children}
                     </div>
                 </Providers>

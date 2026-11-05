@@ -11,6 +11,7 @@
     --surface-card: #ffffff;
     --surface-muted: #f2f3ff;
     --surface-sunken: #dae2fd;
+    --surface-high: #e2e7ff;
     --surface-inverse: #283044;
 
     /* Text and icons */
@@ -55,6 +56,23 @@
     --placeholder: color-mix(in srgb, var(--outline) 60%, transparent);
 }
 
+/* Extremely subtle 24px graph-paper grid for the app surface. The line is a
+   low-opacity tint of the outline token, so it inherits the palette. */
+.app-grid {
+    background-image:
+        linear-gradient(
+            to right,
+            color-mix(in srgb, var(--outline-muted) 14%, transparent) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            color-mix(in srgb, var(--outline-muted) 14%, transparent) 1px,
+            transparent 1px
+        );
+    background-size: 24px 24px;
+}
+
 /* Exposes every token above to Tailwind so bg-*, text-* and border-* utilities
    are generated (bg-primary, text-foreground, border-outline). */
 @theme inline {
@@ -63,6 +81,7 @@
     --color-surface-card: var(--surface-card);
     --color-surface-muted: var(--surface-muted);
     --color-surface-sunken: var(--surface-sunken);
+    --color-surface-high: var(--surface-high);
     --color-surface-inverse: var(--surface-inverse);
 
     /* Text and icons */

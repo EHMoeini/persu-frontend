@@ -1,34 +1,38 @@
-import Link from 'next/link';
+import { DesignIcon } from '@/components/ui/design-icon';
 
 import { SportShowcaseSwiper } from './SportShowcaseSwiper';
 
-/** Mobile landing hero: intro copy, sign-in action, and the sport model swiper. */
+/** Landing hero: intro copy plus the existing low-poly sport swiper in its viewport. */
 export function SportShowcase() {
     return (
         <section
             aria-labelledby="sport-showcase-title"
-            className="flex min-h-[calc(100svh-68px)] flex-col justify-center px-4 pt-6 pb-8 md:hidden"
+            className="relative flex w-full flex-col items-center overflow-hidden"
         >
-            <div className="flex flex-col items-center text-center">
+            <div className="relative flex w-full flex-col items-center">
+                <span className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-surface-high px-3 py-1 text-xs leading-4 font-medium text-primary drop-shadow-subtle">
+                    <DesignIcon
+                        src="/assets/icons/landing/hero-badge-spark.svg"
+                        className="h-[13.333px] w-[10.667px]"
+                    />
+                    رزرو آنی بیش از ۵۰۰ زمین ورزشی
+                </span>
+
                 <h1
                     id="sport-showcase-title"
-                    className="text-[1.375rem] leading-8 font-bold text-foreground"
+                    className="text-center text-[28px] leading-[35px] font-extrabold text-foreground"
                 >
                     همه‌ی زمین‌ها، یک‌جا
                 </h1>
-                <p className="mt-2 max-w-sm text-sm leading-6 text-foreground-muted">
-                    زمین مورد علاقه‌ات را پیدا کن و سانست را در چند ثانیه رزرو کن.
-                </p>
-                <Link
-                    href="/user-check"
-                    className="mt-4 flex h-11 items-center justify-center rounded-xl bg-primary px-6 text-sm leading-5 font-bold text-on-accent shadow-action transition-[background-color,transform] hover:bg-primary-container focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus active:scale-[0.98] active:bg-primary-container"
-                >
-                    ورود یا ثبت‌نام
-                </Link>
-            </div>
 
-            <div className="mt-4">
-                <SportShowcaseSwiper />
+                <p className="mt-3 max-w-[358px] text-center text-sm leading-[22.75px] text-foreground-muted">
+                    کشف و رزرو آنلاین بهترین سالن‌ها و زمین‌های ورزشی؛ بدون نیاز به تماس تلفنی و
+                    گشت‌وگذار در پلتفرم‌های مختلف.
+                </p>
+
+                <div className="mt-6 flex aspect-square w-full max-w-80 items-center justify-center overflow-hidden rounded-3xl bg-surface-muted shadow-input">
+                    <SportShowcaseSwiper />
+                </div>
             </div>
         </section>
     );

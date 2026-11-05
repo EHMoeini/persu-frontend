@@ -17,8 +17,8 @@ import {
 
 import {
     box,
-    buildPanelBallGeometry,
     buildPlayerGeometry,
+    buildVolleyballGeometry,
     disposeObject,
     FlatShape,
     roundedRectShape,
@@ -238,7 +238,7 @@ export function buildVolleyballScene(): LowPolyModel {
     // ----------------------------------------------------------------- ball
     const [bx, by, bz] = BALL_POSITION;
     const ball = new Mesh(
-        buildPanelBallGeometry(BALL_RADIUS, COLORS.ballLight, COLORS.ballDark),
+        buildVolleyballGeometry(BALL_RADIUS, COLORS.ballLight, COLORS.ballDark, COLORS.ballYellow),
         new MeshLambertMaterial({ vertexColors: true, flatShading: true }),
     );
     ball.position.set(bx, by, bz);
