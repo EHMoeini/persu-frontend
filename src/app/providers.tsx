@@ -3,6 +3,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 
+import { AuthSessionBootstrap } from '@/features/auth/components/auth-session-bootstrap';
+
 let browserQueryClient: QueryClient | undefined;
 
 function getQueryClient(): QueryClient {
@@ -14,5 +16,10 @@ function getQueryClient(): QueryClient {
 }
 
 export function Providers({ children }: { children: ReactNode }) {
-    return <QueryClientProvider client={getQueryClient()}>{children}</QueryClientProvider>;
+    return (
+        <QueryClientProvider client={getQueryClient()}>
+            <AuthSessionBootstrap />
+            {children}
+        </QueryClientProvider>
+    );
 }

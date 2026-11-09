@@ -64,6 +64,7 @@ export function PasswordField({
                     autoComplete={autoComplete}
                     autoCapitalize="off"
                     spellCheck={false}
+                    maxLength={128}
                     placeholder={placeholder}
                     value={value}
                     onChange={(event) => onValueChange(event.target.value)}

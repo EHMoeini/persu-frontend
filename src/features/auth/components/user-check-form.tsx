@@ -6,14 +6,15 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StaticImage } from '@/components/ui/static-image';
+import { isHttpError } from '@/utils/http/http-core';
 
 import { useUserCheck } from '../auth.hook';
+import { mapAuthError } from '../auth.logic';
 import { parsePhone, type NationalPhone } from '../auth.phone';
 
 import { PhoneField } from './phone-field';
 
 const HINT_TEXT = 'کد تایید یکبار مصرف به این شماره پیامک خواهد شد.';
-const GENERIC_ERROR = 'مشکلی پیش آمد. لطفاً دوباره تلاش کنید.';
 
 /** The user-check card — phone entry that routes to login or register. */
 export function UserCheckForm({ initialPhone }: { initialPhone?: NationalPhone }) {
@@ -21,6 +22,9 @@ export function UserCheckForm({ initialPhone }: { initialPhone?: NationalPhone }
     const [phone, setPhone] = useState(initialPhone ?? '');
     const userCheck = useUserCheck();
     const isValid = parsePhone(phone) !== null;
+    const error = userCheck.error
+        ? mapAuthError(isHttpError(userCheck.error) ? userCheck.error.code : undefined)
+        : null;
 
     const handleSubmit = async () => {
         const parsed = parsePhone(phone);
@@ -30,7 +34,7 @@ export function UserCheckForm({ initialPhone }: { initialPhone?: NationalPhone }
             const { exists } = await userCheck.mutateAsync(parsed);
             router.push(`${exists ? '/login' : '/register'}?phone=${parsed}`);
         } catch {
-            // The failure state is rendered from `userCheck.isError` below.
+            // The failure state is rendered from `userCheck.error` below.
         }
     };
 
@@ -41,7 +45,7 @@ export function UserCheckForm({ initialPhone }: { initialPhone?: NationalPhone }
                     value={phone}
                     onValueChange={setPhone}
                     hint={HINT_TEXT}
-                    error={userCheck.isError ? GENERIC_ERROR : null}
+                    error={error}
                     disabled={userCheck.isPending}
                 />
                 <Button

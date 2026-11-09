@@ -1,5 +1,13 @@
 import { z } from 'zod';
 
+import type {
+    IAuthResponse,
+    ICheckResponse,
+    ISessionResponse,
+    ISuccessResponse,
+    ITokenPair,
+    IUser,
+} from './auth.models';
 import type { NationalPhone } from './auth.phone';
 
 /**
@@ -11,48 +19,71 @@ const nationalPhoneSchema = z
     .regex(/^9\d{9}$/)
     .transform((value) => value as NationalPhone);
 
+const passwordSchema = (minLength: number) =>
+    z
+        .string()
+        .min(minLength)
+        .max(128)
+        .refine((value) => value.trim().length > 0);
+
+const fullNameSchema = z.string().trim().min(1).max(64);
+
+const userSchema: z.ZodType<IUser> = z.object({
+    id: z.string(),
+    phone: z.string(),
+    nickName: z.string().optional(),
+    avatar: z.string().optional(),
+});
+
 export const userCheckInputSchema = z.object({
     phone: nationalPhoneSchema,
 });
 
-export const userCheckResponseSchema = z.object({
+export const userCheckResponseSchema: z.ZodType<ICheckResponse> = z.object({
     exists: z.boolean(),
 });
 
 export const registerInputSchema = z.object({
     phone: nationalPhoneSchema,
-    fullName: z.string().trim().min(1),
-    password: z.string().min(8),
+    fullName: fullNameSchema,
+    password: passwordSchema(8),
 });
 
-export const registerResponseSchema = z.object({
-    registered: z.boolean(),
+export const registerResponseSchema: z.ZodType<IAuthResponse> = z.object({
+    accessToken: z.string(),
+    refreshToken: z.string(),
+    user: userSchema,
 });
 
 export const verifyOtpInputSchema = z.object({
     phone: nationalPhoneSchema,
-    code: z.string().regex(/^\d{4}$/),
+    code: z.string().regex(/^\d{6}$/),
 });
 
-export const verifyOtpResponseSchema = z.object({
-    verified: z.boolean(),
-});
+export const verifyOtpResponseSchema: z.ZodType<IAuthResponse> = registerResponseSchema;
 
 export const sendOtpInputSchema = z.object({
     phone: nationalPhoneSchema,
 });
 
-export const sendOtpResponseSchema = z.object({
-    sent: z.boolean(),
+export const sendOtpResponseSchema: z.ZodType<ISuccessResponse> = z.object({
+    success: z.boolean(),
 });
 
 export const loginWithPasswordInputSchema = z.object({
     phone: nationalPhoneSchema,
-    password: z.string().min(1),
+    password: passwordSchema(1),
 });
 
-export const loginWithPasswordResponseSchema = z.object({
-    authenticated: z.boolean(),
+export const loginWithPasswordResponseSchema: z.ZodType<IAuthResponse> = registerResponseSchema;
+
+export const sessionResponseSchema: z.ZodType<ISessionResponse> = z.object({
+    user: userSchema,
+});
+
+export const tokenPairSchema: z.ZodType<ITokenPair> = z.object({
+    accessToken: z.string(),
+    refreshToken: z.string(),
 });
 
 export type TUserCheckInput = z.infer<typeof userCheckInputSchema>;

@@ -9,6 +9,7 @@ type HttpErrorInput = {
     url: string;
     status: number;
     statusText: string;
+    code?: string;
     response?: unknown;
 };
 
@@ -18,6 +19,7 @@ export class HttpError extends Error {
     url: string;
     status: number;
     statusText: string;
+    code?: string;
     response?: unknown;
 
     constructor(input: HttpErrorInput) {
@@ -28,6 +30,7 @@ export class HttpError extends Error {
         this.url = input.url;
         this.status = input.status;
         this.statusText = input.statusText;
+        this.code = input.code;
         this.response = input.response;
     }
 }
@@ -38,6 +41,15 @@ export function isHttpError(error: unknown): error is HttpError {
 
 const GET_TIMEOUT_MS = 10_000;
 const WRITE_TIMEOUT_MS = 30_000;
+
+type TApiErrorBody = {
+    error?: {
+        code?: string;
+        message?: string;
+    };
+    error_code?: number | string;
+    message?: string;
+};
 
 export function createHttp(baseUrl?: string, buildHeaders: BuildHeaders = () => ({})) {
     async function send<T>(
@@ -98,21 +110,34 @@ export function createHttp(baseUrl?: string, buildHeaders: BuildHeaders = () => 
             const res = await fetch(url, finalInit);
 
             let data: unknown = null;
-            try {
-                data = await res.json();
-            } catch (error) {
-                if (controller.signal.aborted) throw error;
+            if (res.status !== 204) {
+                try {
+                    data = await res.json();
+                } catch (error) {
+                    if (controller.signal.aborted) throw error;
+                }
             }
-            const errorBody = data as { error_code?: number; message?: string } | null;
-            const statusCode = !res.ok ? res.status : (errorBody?.error_code ?? res.status);
 
-            if (!res.ok || errorBody?.error_code) {
+            const errorBody = data as TApiErrorBody | null;
+            const errorCode = errorBody?.error?.code;
+            const legacyErrorCode = errorBody?.error_code;
+            const serverMessage = errorBody?.error?.message ?? errorBody?.message;
+            const statusCode = !res.ok
+                ? res.status
+                : legacyErrorCode !== undefined
+                  ? Number(legacyErrorCode) || res.status
+                  : res.status;
+
+            if (!res.ok || (legacyErrorCode !== undefined && legacyErrorCode !== 0)) {
                 throw new HttpError({
                     method,
                     path,
                     url,
                     status: statusCode,
-                    statusText: errorBody?.message ?? '',
+                    statusText: serverMessage ?? res.statusText,
+                    code:
+                        errorCode ??
+                        (legacyErrorCode !== undefined ? String(legacyErrorCode) : undefined),
                     response: data,
                 });
             }
