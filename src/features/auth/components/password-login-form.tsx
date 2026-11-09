@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useId, useState, type FormEvent } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StaticImage } from '@/components/ui/static-image';
 import { TextButton } from '@/components/ui/text-button';
+import { isHttpError } from '@/utils/http/http-core';
 
-import { AUTH_COPY } from '../auth.copy';
 import { useLoginWithPassword } from '../auth.hook';
+import { mapAuthError } from '../auth.logic';
 import { formatPhone, type NationalPhone } from '../auth.phone';
 
 import { PasswordField } from './password-field';
@@ -23,31 +23,19 @@ type TPasswordLoginFormProps = {
 
 /** The password card — Figma "Login/Pass" form fields. */
 export function PasswordLoginForm({ phone, onUseOtp }: TPasswordLoginFormProps) {
-    const router = useRouter();
     const passwordId = useId();
     const [password, setPassword] = useState('');
     const login = useLoginWithPassword();
+    const error = login.error
+        ? mapAuthError(isHttpError(login.error) ? login.error.code : undefined)
+        : null;
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!password || login.isPending) return;
 
-        login
-            .mutateAsync({ phone, password })
-            .then(({ authenticated }) => {
-                if (authenticated) router.push('/');
-            })
-            .catch(() => {
-                // The failure state is rendered from `login` below.
-            });
+        login.mutate({ phone, password });
     };
-
-    const error =
-        login.data && !login.data.authenticated
-            ? AUTH_COPY.wrongPassword
-            : login.isError
-              ? AUTH_COPY.genericError
-              : null;
 
     return (
         <Card className="p-4">

@@ -3,9 +3,8 @@ import { redirect } from 'next/navigation';
 /**
  * Authenticated account page.
  *
- * Mock auth never persists a session, so every visitor is signed out and sent
- * through the auth flow. Replace the unconditional redirect with a real
- * session check when auth is wired up.
+ * Profile is out of scope for the auth integration; every visitor is sent
+ * through the auth flow until the profile route guard is wired up.
  */
 export default function ProfilePage() {
     redirect('/user-check');

@@ -32,8 +32,8 @@ const NAV_ITEMS: TNavigationItem[] = [
         iconClassName: 'h-[18.333px] w-[16.5px]',
     },
     {
-        // The profile route guards auth: signed-out visitors are redirected to
-        // /user-check, which is every visitor while auth is mocked.
+        // The profile route is still unguarded; it redirects to /user-check
+        // until the profile integration lands.
         href: '/profile',
         label: 'حساب من',
         icon: '/assets/icons/landing/nav-account.svg',

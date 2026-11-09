@@ -36,6 +36,7 @@ export function NameField({ value, onValueChange, error, disabled }: TNameFieldP
                     id={inputId}
                     type="text"
                     autoComplete="name"
+                    maxLength={64}
                     placeholder="مثال: علیرضا شمس"
                     value={value}
                     onChange={(event) => onValueChange(event.target.value)}

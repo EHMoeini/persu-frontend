@@ -1,69 +1,32 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useId, useState } from 'react';
+import { useId } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StaticImage } from '@/components/ui/static-image';
+import { isHttpError } from '@/utils/http/http-core';
 
-import { AUTH_COPY } from '../auth.copy';
-import { useSendOtp, useVerifyOtp } from '../auth.hook';
+import { useOtpFlow } from '../auth.hook';
+import { mapAuthError } from '../auth.logic';
 import { formatPhone, type NationalPhone } from '../auth.phone';
 
 import { OtpInput } from './otp-input';
 import { ResendOtpRow } from './resend-otp-row';
 
-/** Seconds before the OTP can be resent — the design's starting countdown (۰۱:۴۵). */
-const RESEND_SECONDS = 105;
-
-/** The OTP card — verifies the code sent to the phone number below. */
+/** The OTP card — verifies the 6-digit code sent to the phone number below. */
 export function OtpForm({ phone }: { phone: NationalPhone }) {
     const router = useRouter();
     const labelId = useId();
     const errorId = useId();
-    const [code, setCode] = useState('');
-    const [countdown, setCountdown] = useState(RESEND_SECONDS);
-    const verifyOtp = useVerifyOtp();
-    const sendOtp = useSendOtp();
-
-    useEffect(() => {
-        const id = setInterval(
-            () => setCountdown((seconds) => (seconds > 0 ? seconds - 1 : 0)),
-            1000,
-        );
-        return () => clearInterval(id);
-    }, []);
-
-    const submit = (nextCode: string) => {
-        if (nextCode.length !== 4 || verifyOtp.isPending) return;
-
-        verifyOtp
-            .mutateAsync({ phone, code: nextCode })
-            .then(({ verified }) => {
-                if (verified) router.push('/');
-            })
-            .catch(() => {
-                // The failure state is rendered from `verifyOtp` below.
-            });
-    };
-
-    const handleCodeChange = (nextCode: string) => {
-        setCode(nextCode);
-        if (nextCode.length === 4) submit(nextCode);
-    };
-
-    const handleResend = () => {
-        if (countdown > 0 || sendOtp.isPending) return;
-        sendOtp.mutate({ phone }, { onSuccess: () => setCountdown(RESEND_SECONDS) });
-    };
-
-    const error =
-        verifyOtp.data && !verifyOtp.data.verified
-            ? AUTH_COPY.wrongOtp
-            : verifyOtp.isError || sendOtp.isError
-              ? AUTH_COPY.genericError
-              : null;
+    const { code, setCode, submit, countdown, resend, verify, send } = useOtpFlow(phone, {
+        autoSend: true,
+    });
+    const mutationError = verify.error ?? send.error;
+    const error = mutationError
+        ? mapAuthError(isHttpError(mutationError) ? mutationError.code : undefined)
+        : null;
 
     return (
         <Card className="p-4">
@@ -72,7 +35,7 @@ export function OtpForm({ phone }: { phone: NationalPhone }) {
                     <button
                         type="button"
                         onClick={() => router.push(`/user-check?phone=${phone}`)}
-                        disabled={verifyOtp.isPending}
+                        disabled={verify.isPending}
                         className="flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] leading-4.25 font-medium text-primary disabled:cursor-not-allowed disabled:opacity-40"
                     >
                         <span>ویرایش شماره</span>
@@ -101,13 +64,13 @@ export function OtpForm({ phone }: { phone: NationalPhone }) {
 
                 <div className="flex flex-col gap-2.5">
                     <span id={labelId} className="text-xs leading-4 font-semibold text-foreground">
-                        کد تایید ۴ رقمی:
+                        کد تایید ۶ رقمی:
                     </span>
 
                     <OtpInput
                         value={code}
-                        onValueChange={handleCodeChange}
-                        disabled={verifyOtp.isPending}
+                        onValueChange={setCode}
+                        disabled={verify.isPending}
                         ariaLabelledBy={labelId}
                         ariaDescribedBy={error ? errorId : undefined}
                         ariaInvalid={Boolean(error)}
@@ -121,16 +84,16 @@ export function OtpForm({ phone }: { phone: NationalPhone }) {
 
                     <ResendOtpRow
                         countdown={countdown}
-                        onResend={handleResend}
-                        pending={sendOtp.isPending}
+                        onResend={resend}
+                        pending={send.isPending}
                     />
                 </div>
 
                 <div className="pt-1">
                     <Button
                         onClick={() => submit(code)}
-                        disabled={code.length !== 4}
-                        loading={verifyOtp.isPending}
+                        disabled={code.length !== 6 || verify.isPending}
+                        loading={verify.isPending}
                         icon={
                             <span className="relative block size-3">
                                 <StaticImage

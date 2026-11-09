@@ -1,22 +1,19 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useId, useState } from 'react';
+import { useId } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StaticImage } from '@/components/ui/static-image';
 import { TextButton } from '@/components/ui/text-button';
+import { isHttpError } from '@/utils/http/http-core';
 
-import { AUTH_COPY } from '../auth.copy';
-import { useSendOtp, useVerifyOtp } from '../auth.hook';
+import { useOtpFlow } from '../auth.hook';
+import { mapAuthError } from '../auth.logic';
 import { formatPhone, type NationalPhone } from '../auth.phone';
 
 import { OtpInput } from './otp-input';
 import { ResendOtpRow } from './resend-otp-row';
-
-/** Seconds before the OTP can be resent — the design's starting countdown (۰۱:۴۵). */
-const RESEND_SECONDS = 105;
 
 type TLoginFormProps = {
     phone: NationalPhone;
@@ -26,50 +23,14 @@ type TLoginFormProps = {
 
 /** The login card — OTP verification for an existing account. */
 export function LoginForm({ phone, onUsePassword }: TLoginFormProps) {
-    const router = useRouter();
     const errorId = useId();
-    const [code, setCode] = useState('');
-    const [countdown, setCountdown] = useState(RESEND_SECONDS);
-    const verifyOtp = useVerifyOtp();
-    const sendOtp = useSendOtp();
-
-    useEffect(() => {
-        const id = setInterval(
-            () => setCountdown((seconds) => (seconds > 0 ? seconds - 1 : 0)),
-            1000,
-        );
-        return () => clearInterval(id);
-    }, []);
-
-    const submit = (nextCode: string) => {
-        if (nextCode.length !== 4 || verifyOtp.isPending) return;
-
-        verifyOtp
-            .mutateAsync({ phone, code: nextCode })
-            .then(({ verified }) => {
-                if (verified) router.push('/');
-            })
-            .catch(() => {
-                // The failure state is rendered from `verifyOtp` below.
-            });
-    };
-
-    const handleCodeChange = (nextCode: string) => {
-        setCode(nextCode);
-        if (nextCode.length === 4) submit(nextCode);
-    };
-
-    const handleResend = () => {
-        if (countdown > 0 || sendOtp.isPending) return;
-        sendOtp.mutate({ phone }, { onSuccess: () => setCountdown(RESEND_SECONDS) });
-    };
-
-    const error =
-        verifyOtp.data && !verifyOtp.data.verified
-            ? AUTH_COPY.wrongOtp
-            : verifyOtp.isError || sendOtp.isError
-              ? AUTH_COPY.genericError
-              : null;
+    const { code, setCode, submit, countdown, resend, verify, send } = useOtpFlow(phone, {
+        autoSend: true,
+    });
+    const mutationError = verify.error ?? send.error;
+    const error = mutationError
+        ? mapAuthError(isHttpError(mutationError) ? mutationError.code : undefined)
+        : null;
 
     return (
         <Card className="p-4">
@@ -94,8 +55,10 @@ export function LoginForm({ phone, onUsePassword }: TLoginFormProps) {
 
                     <OtpInput
                         value={code}
-                        onValueChange={handleCodeChange}
-                        disabled={verifyOtp.isPending}
+                        onValueChange={setCode}
+                        disabled={verify.isPending}
+                        ariaDescribedBy={error ? errorId : undefined}
+                        ariaInvalid={Boolean(error)}
                     />
 
                     {error ? (
@@ -106,16 +69,16 @@ export function LoginForm({ phone, onUsePassword }: TLoginFormProps) {
 
                     <ResendOtpRow
                         countdown={countdown}
-                        onResend={handleResend}
-                        pending={sendOtp.isPending}
+                        onResend={resend}
+                        pending={send.isPending}
                     />
                 </div>
 
                 <div className="pt-1">
                     <Button
                         onClick={() => submit(code)}
-                        disabled={code.length !== 4}
-                        loading={verifyOtp.isPending}
+                        disabled={code.length !== 6 || verify.isPending}
+                        loading={verify.isPending}
                         icon={
                             <span className="relative block size-3">
                                 <StaticImage
@@ -132,7 +95,7 @@ export function LoginForm({ phone, onUsePassword }: TLoginFormProps) {
                 <div className="flex justify-center pt-1">
                     <TextButton
                         onClick={onUsePassword}
-                        disabled={verifyOtp.isPending}
+                        disabled={verify.isPending}
                         icon={
                             <span className="relative block h-3 w-2.25">
                                 <StaticImage
