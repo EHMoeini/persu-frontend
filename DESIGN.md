@@ -1,156 +1,156 @@
 ---
 name: Persu Athletic Space
 colors:
-  surface: '#faf8ff'
-  surface-dim: '#d2d9f4'
-  surface-bright: '#faf8ff'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f2f3ff'
-  surface-container: '#eaedff'
-  surface-container-high: '#e2e7ff'
-  surface-container-highest: '#dae2fd'
-  on-surface: '#131b2e'
-  on-surface-variant: '#3f4850'
-  inverse-surface: '#283044'
-  inverse-on-surface: '#eef0ff'
-  outline: '#707881'
-  outline-variant: '#bfc7d2'
-  surface-tint: '#006398'
-  primary: '#006194'
-  on-primary: '#ffffff'
-  primary-container: '#007bb9'
-  on-primary-container: '#fdfcff'
-  inverse-primary: '#93ccff'
-  secondary: '#9d4300'
-  on-secondary: '#ffffff'
-  secondary-container: '#fd761a'
-  on-secondary-container: '#5c2400'
-  tertiary: '#006577'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#008096'
-  on-tertiary-container: '#f9fdff'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#cce5ff'
-  primary-fixed-dim: '#93ccff'
-  on-primary-fixed: '#001d31'
-  on-primary-fixed-variant: '#004b73'
-  secondary-fixed: '#ffdbca'
-  secondary-fixed-dim: '#ffb690'
-  on-secondary-fixed: '#341100'
-  on-secondary-fixed-variant: '#783200'
-  tertiary-fixed: '#acedff'
-  tertiary-fixed-dim: '#4cd7f6'
-  on-tertiary-fixed: '#001f26'
-  on-tertiary-fixed-variant: '#004e5c'
-  background: '#faf8ff'
-  on-background: '#131b2e'
-  surface-variant: '#dae2fd'
-  sky-light: '#e0f2fe'
-  sky-focus: '#38bdf8'
-  tangerine-light: '#ffedd5'
-  turf-success: '#10b981'
-  court-reserved: '#94a3b8'
-  court-pending: '#f59e0b'
-  court-error: '#ef4444'
-  surface-subtle: '#f8fafc'
+    surface: '#faf8ff'
+    surface-dim: '#d2d9f4'
+    surface-bright: '#faf8ff'
+    surface-container-lowest: '#ffffff'
+    surface-container-low: '#f2f3ff'
+    surface-container: '#eaedff'
+    surface-container-high: '#e2e7ff'
+    surface-container-highest: '#dae2fd'
+    on-surface: '#131b2e'
+    on-surface-variant: '#3f4850'
+    inverse-surface: '#283044'
+    inverse-on-surface: '#eef0ff'
+    outline: '#707881'
+    outline-variant: '#bfc7d2'
+    surface-tint: '#006398'
+    primary: '#006194'
+    on-primary: '#ffffff'
+    primary-container: '#007bb9'
+    on-primary-container: '#fdfcff'
+    inverse-primary: '#93ccff'
+    secondary: '#9d4300'
+    on-secondary: '#ffffff'
+    secondary-container: '#fd761a'
+    on-secondary-container: '#5c2400'
+    tertiary: '#006577'
+    on-tertiary: '#ffffff'
+    tertiary-container: '#008096'
+    on-tertiary-container: '#f9fdff'
+    error: '#ba1a1a'
+    on-error: '#ffffff'
+    error-container: '#ffdad6'
+    on-error-container: '#93000a'
+    primary-fixed: '#cce5ff'
+    primary-fixed-dim: '#93ccff'
+    on-primary-fixed: '#001d31'
+    on-primary-fixed-variant: '#004b73'
+    secondary-fixed: '#ffdbca'
+    secondary-fixed-dim: '#ffb690'
+    on-secondary-fixed: '#341100'
+    on-secondary-fixed-variant: '#783200'
+    tertiary-fixed: '#acedff'
+    tertiary-fixed-dim: '#4cd7f6'
+    on-tertiary-fixed: '#001f26'
+    on-tertiary-fixed-variant: '#004e5c'
+    background: '#faf8ff'
+    on-background: '#131b2e'
+    surface-variant: '#dae2fd'
+    sky-light: '#e0f2fe'
+    sky-focus: '#38bdf8'
+    tangerine-light: '#ffedd5'
+    turf-success: '#10b981'
+    court-reserved: '#94a3b8'
+    court-pending: '#f59e0b'
+    court-error: '#ef4444'
+    surface-subtle: '#f8fafc'
 typography:
-  display-lg:
-    fontFamily: Vazirmatn
-    fontSize: 44px
-    fontWeight: '800'
-    lineHeight: 56px
-  display-lg-mobile:
-    fontFamily: Vazirmatn
-    fontSize: 30px
-    fontWeight: '800'
-    lineHeight: 40px
-  headline-lg:
-    fontFamily: Vazirmatn
-    fontSize: 32px
-    fontWeight: '700'
-    lineHeight: 44px
-  headline-lg-mobile:
-    fontFamily: Vazirmatn
-    fontSize: 22px
-    fontWeight: '700'
-    lineHeight: 32px
-  headline-md:
-    fontFamily: Vazirmatn
-    fontSize: 24px
-    fontWeight: '700'
-    lineHeight: 34px
-  headline-sm:
-    fontFamily: Vazirmatn
-    fontSize: 20px
-    fontWeight: '600'
-    lineHeight: 30px
-  title-lg:
-    fontFamily: Vazirmatn
-    fontSize: 18px
-    fontWeight: '600'
-    lineHeight: 28px
-  title-md:
-    fontFamily: Vazirmatn
-    fontSize: 16px
-    fontWeight: '600'
-    lineHeight: 26px
-  title-sm:
-    fontFamily: Vazirmatn
-    fontSize: 14px
-    fontWeight: '600'
-    lineHeight: 22px
-  body-lg:
-    fontFamily: Vazirmatn
-    fontSize: 16px
-    fontWeight: '400'
-    lineHeight: 28px
-  body-md:
-    fontFamily: Vazirmatn
-    fontSize: 14px
-    fontWeight: '400'
-    lineHeight: 24px
-  body-sm:
-    fontFamily: Vazirmatn
-    fontSize: 12px
-    fontWeight: '400'
-    lineHeight: 20px
-  label-lg:
-    fontFamily: Vazirmatn
-    fontSize: 14px
-    fontWeight: '500'
-    lineHeight: 20px
-  label-md:
-    fontFamily: Vazirmatn
-    fontSize: 12px
-    fontWeight: '500'
-    lineHeight: 18px
-  label-sm:
-    fontFamily: Vazirmatn
-    fontSize: 11px
-    fontWeight: '500'
-    lineHeight: 16px
+    display-lg:
+        fontFamily: Vazirmatn
+        fontSize: 44px
+        fontWeight: '800'
+        lineHeight: 56px
+    display-lg-mobile:
+        fontFamily: Vazirmatn
+        fontSize: 30px
+        fontWeight: '800'
+        lineHeight: 40px
+    headline-lg:
+        fontFamily: Vazirmatn
+        fontSize: 32px
+        fontWeight: '700'
+        lineHeight: 44px
+    headline-lg-mobile:
+        fontFamily: Vazirmatn
+        fontSize: 22px
+        fontWeight: '700'
+        lineHeight: 32px
+    headline-md:
+        fontFamily: Vazirmatn
+        fontSize: 24px
+        fontWeight: '700'
+        lineHeight: 34px
+    headline-sm:
+        fontFamily: Vazirmatn
+        fontSize: 20px
+        fontWeight: '600'
+        lineHeight: 30px
+    title-lg:
+        fontFamily: Vazirmatn
+        fontSize: 18px
+        fontWeight: '600'
+        lineHeight: 28px
+    title-md:
+        fontFamily: Vazirmatn
+        fontSize: 16px
+        fontWeight: '600'
+        lineHeight: 26px
+    title-sm:
+        fontFamily: Vazirmatn
+        fontSize: 14px
+        fontWeight: '600'
+        lineHeight: 22px
+    body-lg:
+        fontFamily: Vazirmatn
+        fontSize: 16px
+        fontWeight: '400'
+        lineHeight: 28px
+    body-md:
+        fontFamily: Vazirmatn
+        fontSize: 14px
+        fontWeight: '400'
+        lineHeight: 24px
+    body-sm:
+        fontFamily: Vazirmatn
+        fontSize: 12px
+        fontWeight: '400'
+        lineHeight: 20px
+    label-lg:
+        fontFamily: Vazirmatn
+        fontSize: 14px
+        fontWeight: '500'
+        lineHeight: 20px
+    label-md:
+        fontFamily: Vazirmatn
+        fontSize: 12px
+        fontWeight: '500'
+        lineHeight: 18px
+    label-sm:
+        fontFamily: Vazirmatn
+        fontSize: 11px
+        fontWeight: '500'
+        lineHeight: 16px
 rounded:
-  sm: 0.25rem
-  DEFAULT: 0.5rem
-  md: 0.75rem
-  lg: 1rem
-  xl: 1.5rem
-  full: 9999px
+    sm: 0.25rem
+    DEFAULT: 0.5rem
+    md: 0.75rem
+    lg: 1rem
+    xl: 1.5rem
+    full: 9999px
 spacing:
-  gutter: 1rem
-  gutter-desktop: 1.5rem
-  margin: 1rem
-  margin-tablet: 1.5rem
-  margin-desktop: 2rem
-  space-xs: 0.25rem
-  space-sm: 0.5rem
-  space-md: 1rem
-  space-lg: 1.5rem
-  space-xl: 2rem
-  space-2xl: 3rem
+    gutter: 1rem
+    gutter-desktop: 1.5rem
+    margin: 1rem
+    margin-tablet: 1.5rem
+    margin-desktop: 2rem
+    space-xs: 0.25rem
+    space-sm: 0.5rem
+    space-md: 1rem
+    space-lg: 1.5rem
+    space-xl: 2rem
+    space-2xl: 3rem
 ---
 
 ## Brand & Style
@@ -170,13 +170,13 @@ The palette establishes an airy, athletic sky-blue as the dominant anchor, accen
 - **Tertiary (`#06b6d4`):** Aquatic cyan used for secondary feature highlights, lightning booking indicators, and facility amenity badges (e.g., lighting, lockers, paddle rentals).
 - **Neutral (`#0f172a`):** Deep athletic slate. Provides optimal typographic readability and contrast across Persian glyphs against daylight reflections on mobile devices.
 - **Named Utility Colors:**
-  - `sky-light` (`#e0f2fe`): Tinted background for active time-slot selections and selected tab states.
-  - `sky-focus` (`#38bdf8`): Accessible focus ring and outline indicator for interactive form inputs.
-  - `tangerine-light` (`#ffedd5`): Soft backdrop for promotional tags, flash discounts, and cart holds.
-  - `turf-success` (`#10b981`): Pitch-side turf green for confirmed bookings, available courts, and active status indicators.
-  - `court-reserved` (`#94a3b8`): Low-emphasis neutral for unavailable, locked, or past time slots.
-  - `court-pending` (`#f59e0b`): Caution amber for reservations undergoing payment gateway verification.
-  - `court-error` (`#ef4444`): High-alert crimson for cancellation notices or double-booking alerts.
+    - `sky-light` (`#e0f2fe`): Tinted background for active time-slot selections and selected tab states.
+    - `sky-focus` (`#38bdf8`): Accessible focus ring and outline indicator for interactive form inputs.
+    - `tangerine-light` (`#ffedd5`): Soft backdrop for promotional tags, flash discounts, and cart holds.
+    - `turf-success` (`#10b981`): Pitch-side turf green for confirmed bookings, available courts, and active status indicators.
+    - `court-reserved` (`#94a3b8`): Low-emphasis neutral for unavailable, locked, or past time slots.
+    - `court-pending` (`#f59e0b`): Caution amber for reservations undergoing payment gateway verification.
+    - `court-error` (`#ef4444`): High-alert crimson for cancellation notices or double-booking alerts.
 
 ## Typography
 
@@ -191,9 +191,9 @@ The typography system is unified exclusively around **Vazirmatn (وزیرمتن)
 A responsive fluid grid adapts complex court booking matrices, venue catalogs, and operator dashboards effortlessly across devices.
 
 - **Breakpoints:**
-  - **Mobile (< 640px):** 4 columns, `margin: 1rem`, `gutter: 1rem`. Time-slot grids transform into horizontal carousels or swipeable single-day timelines.
-  - **Tablet (640px – 1024px):** 8 columns, `margin-tablet: 1.5rem`, `gutter: 1rem`. Side-by-side venue comparison and split calendar views.
-  - **Desktop (> 1024px):** 12 columns capped at `1400px` max width, `margin-desktop: 2rem`, `gutter-desktop: 1.5rem`. Multi-court Gantt charts span 8 columns with sticky booking sidebars occupying 4 columns.
+    - **Mobile (< 640px):** 4 columns, `margin: 1rem`, `gutter: 1rem`. Time-slot grids transform into horizontal carousels or swipeable single-day timelines.
+    - **Tablet (640px – 1024px):** 8 columns, `margin-tablet: 1.5rem`, `gutter: 1rem`. Side-by-side venue comparison and split calendar views.
+    - **Desktop (> 1024px):** 12 columns capped at `1400px` max width, `margin-desktop: 2rem`, `gutter-desktop: 1.5rem`. Multi-court Gantt charts span 8 columns with sticky booking sidebars occupying 4 columns.
 - **RTL Layout Flow:** Margins, padding, drawer dismissals, and directional carousels originate on the right side and resolve toward the left.
 
 ## Elevation & Depth

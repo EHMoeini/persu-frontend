@@ -1,15 +1,15 @@
-import Link from 'next/link';
+import { ContactCard } from '@/features/landing/components/contact-card';
+import { FaqCard } from '@/features/landing/components/faq-card';
+import { SportSearchCard } from '@/features/landing/components/sport-search-card';
+import { SportShowcase } from '@/features/landing/SportShowcase';
 
-/** Temporary entry point — sends visitors into the auth flow. */
 export default function Page() {
-  return (
-    <div className="flex flex-1 items-center justify-center px-5 pb-20">
-      <Link
-        href="/user-check"
-        className="flex h-12 w-full max-w-sm items-center justify-center rounded-xl bg-primary px-4 text-sm leading-5 font-bold text-on-accent shadow-action"
-      >
-        ورود یا ثبت‌نام
-      </Link>
-    </div>
-  );
+    return (
+        <div className="flex w-full flex-col gap-5 px-4 pt-4 pb-6">
+            <SportShowcase />
+            <SportSearchCard />
+            <FaqCard />
+            <ContactCard />
+        </div>
+    );
 }

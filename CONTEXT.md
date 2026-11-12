@@ -29,7 +29,7 @@ The step that decides whether a Phone Number belongs to an existing Account and 
 _Avoid_: user check, phone check, lookup
 
 **OTP**:
-The one-time SMS code that proves control of a Phone Number.
+The one-time SMS code that proves control of a Phone Number. OTP login also creates the Account when the Phone Number is new (passwordless signup).
 _Avoid_: verification code, passcode, token
 
 **Login**:
@@ -39,3 +39,25 @@ _Avoid_: sign in, log in
 **Register**:
 The flow that creates an Account for a Phone Number that does not have one yet.
 _Avoid_: sign up, signup, enrolment
+
+**Session**:
+A User's authenticated presence on a device, created by Login or Register and ended by Logout. A Session is not the Account: ending it does not delete the Account.
+_Avoid_: auth state, login state, token
+
+### Venues and booking
+
+**Venue**:
+A sports facility listed on Persu that offers one or more bookable Courts. UI term: مجموعه ورزشی.
+_Avoid_: club, facility
+
+**Court**:
+A bookable playing surface at a Venue — a football pitch, volleyball court, tennis court, futsal hall, padel court, etc. UI term: زمین / سالن.
+_Avoid_: field, location
+
+**Time Slot**:
+A fixed date and time interval on a Court that a User can book. UI term: سانس.
+_Avoid_: session, appointment
+
+**Booking**:
+A User's confirmed reservation of a Time Slot. UI term: رزرو.
+_Avoid_: order, ticket

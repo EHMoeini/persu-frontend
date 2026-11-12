@@ -5,10 +5,10 @@ import ErrorComponent from '@/components/error/error-component';
 // Must be a page: notFound() cannot be called from client components.
 
 export const metadata: Metadata = {
-  title: '502 - Service unavailable',
-  robots: { index: false, follow: false },
+    title: '502 - Service unavailable',
+    robots: { index: false, follow: false },
 };
 
 export default function Page() {
-  return <ErrorComponent statusCode={502} />;
+    return <ErrorComponent statusCode={502} />;
 }

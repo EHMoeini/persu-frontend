@@ -1,0 +1,19 @@
+/* Inline stage: fills the card supplied by the landing showcase. */
+.stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.canvasHost {
+    position: absolute;
+    inset: 0;
+}
+
+.canvasHost canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
