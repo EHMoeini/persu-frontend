@@ -21,7 +21,7 @@ const NAV_ITEMS: TNavigationItem[] = [
         iconClassName: 'size-[18.333px]',
     },
     {
-        href: '/venues',
+        href: '/search',
         label: 'سالن‌ها',
         icon: '/assets/icons/landing/nav-search.svg',
         iconClassName: 'size-[16.5px]',
