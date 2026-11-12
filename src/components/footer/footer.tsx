@@ -10,7 +10,7 @@ const FOOTER_LINKS = [
 /** Shell footer — brand summary, quick links, and the copyright line. */
 export default function Footer() {
     return (
-        <footer className="bg-surface-card/90 px-5 pt-8 pb-26">
+        <footer className="bg-surface-card/90 px-5 pt-8 pb-[calc(env(safe-area-inset-bottom)+8rem)]">
             <div className="flex flex-col gap-2">
                 <h2 className="text-sm leading-5 font-bold text-foreground">سامانه هوشمند پرسو</h2>
 
