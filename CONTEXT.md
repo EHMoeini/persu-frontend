@@ -10,6 +10,16 @@ Persu (پرسو) is a sports-hall and court booking platform: venues list their 
 The product this repository builds — the booking platform itself.
 _Avoid_: Persue, Perso, "the app"
 
+### Chrome
+
+**Header**:
+The persistent brand bar at the top of shell pages: the logo mark, پرسو, and the product tagline.
+_Avoid_: navbar, app bar
+
+**Landing Brand**:
+The large centered logo mark and پرسو at the top of the landing page. It is not the Header: it stands in for it while it is in the viewport, and the Header takes over once the Landing Brand scrolls fully out, until the Landing Brand returns.
+_Avoid_: hero logo, splash logo
+
 ### Accounts and sign-in
 
 **User**:
