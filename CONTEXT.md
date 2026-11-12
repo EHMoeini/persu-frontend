@@ -18,7 +18,15 @@ _Avoid_: customer, client, member
 
 **Account**:
 A User's registered record on Persu. A Phone Number has an Account once registration completes; until then it is only a pending number.
-_Avoid_: profile, membership
+_Avoid_: membership
+
+**Profile**:
+The public display projection of an Account: the Display Name and avatar, plus the Phone Number it exposes. A Profile is not the Account — changing it does not change sign-in identity. UI screen: حساب کاربری.
+_Avoid_: account, user
+
+**Display Name**:
+The name shown on a Profile. It may be the full name captured at Register; when empty, the Profile falls back to the Phone Number.
+_Avoid_: nickname
 
 **Phone Number**:
 The credential that identifies a User — an Iranian mobile number in local form (`09xxxxxxxxx`).

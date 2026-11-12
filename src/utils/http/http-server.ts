@@ -51,5 +51,7 @@ export const http = {
         safeRequest(httpRaw.post<T>(path, body, init)),
     put: <T>(path: string, body?: unknown, init?: RequestInit) =>
         safeRequest(httpRaw.put<T>(path, body, init)),
+    patch: <T>(path: string, body?: unknown, init?: RequestInit) =>
+        safeRequest(httpRaw.patch<T>(path, body, init)),
     delete: <T>(path: string, init?: RequestInit) => safeRequest(httpRaw.delete<T>(path, init)),
 };

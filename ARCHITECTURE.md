@@ -31,6 +31,7 @@ Next.js (App Router) + Tailwind v4 + Bun. All code in `src/`. Lint/format: ESLin
 ## 3. Shared layers
 
 - `src/components/<group>/` — shared UI only, no fetching.
+- Use `@headlessui/react` for headless overlays and interactive primitives (Dialog, Popover, Menu, Listbox, Tabs). It is unstyled; style with Tailwind. Headless UI has no dedicated Drawer — compose `Dialog` + `DialogPanel` as the bottom sheet.
 - `src/utils/http/` — `http-core.ts` (factory) / `http-server.ts` (server-only) / `http-client.ts` (browser-only) / `*.logic.ts` (pure). All fetching goes through here.
 - `src/utils/*.util.ts` stateless, `*.server.ts` server-only. Subdirs per concern.
 - `src/hooks/`, `src/stores/*.store.ts`, `src/models/*.model.ts`, `src/constants/*.constant.ts` — one kind per dir, no mixing.
@@ -48,6 +49,40 @@ Next.js (App Router) + Tailwind v4 + Bun. All code in `src/`. Lint/format: ESLin
 - **Client I/O** lives in `src/features/<domain>/<domain>.client.endpoint.ts`. Compose `${process.env.NEXT_PUBLIC_API_BASE_URL}${EXTERNAL_ENDPOINTS.X}`, call `httpClient`, and return the wire model. No mapping, no React.
 - **Queries** live in `src/features/<domain>/<domain>.query.ts` (or beside the component for a local resource). They wrap client endpoint functions in `useQuery` and use `QUERY_KEYS`; no raw I/O.
 - **Mutations and other hooks** live in `*.hook.ts(x)`; mutations wrap client endpoint functions in `useMutation`.
+- **Mutation hooks only declare `mutationKey` and `mutationFn`.** They must not own `onSuccess`, `onError`, `onSettled`, navigation, or local UI state. Domain cache reconciliation belongs inside `mutationFn` (or a domain action it calls), so callers do not repeat query-key knowledge. Return the mutation and let the call site destructure `mutate` and `isPending`:
+
+    ```ts
+    // feature.hook.ts — key and fn only
+    export function useReportComment(newsId: number) {
+        return useMutation({
+            mutationKey: QUERY_KEYS.REPORT_COMMENT(newsId),
+            mutationFn: ({ id, reason }: { id: number; reason: number }) =>
+                reportComment(id, reason),
+        });
+    }
+    ```
+
+    If the mutation changes cached data, reconcile it inside `mutationFn` (`queryClient` comes from `useQueryClient()` in the hook):
+
+    ```ts
+    mutationFn: async (input: TInput) => {
+        const data = await updateThing(input);
+        queryClient.setQueryData(QUERY_KEYS.THING, data);
+        return data;
+    },
+    ```
+
+    ```tsx
+    // call site — navigation and local UI state belong here
+    const { mutate: answerPoll, isPending } = usePollAnswer(optionData.poll_id);
+
+    answerPoll(optionData.id, {
+        onSuccess: () => setStatus('done'),
+    });
+    ```
+
+    This keeps mutation hooks reusable across screens and leaves navigation, toasts, analytics, and local UI state with the screen that owns the context.
+
 - **Server I/O** lives in `src/features/<domain>/<domain>.endpoint.ts`. Call `http`; endpoint functions are directly callable from server components and must not be wrapped in a React hook.
 - **Models** live in `*.models.ts` (feature) or `src/models/*.model.ts` (shared). Model the wire shape exactly, including envelopes such as `{ success, meta, data }`; types are `I`-prefixed interfaces.
 - **Auth boundary**: `/auth/*` is public except `/auth/session`, which requires `Authorization: Bearer <accessToken>`. `/api/*` requires the Bearer token. Never infer the auth requirement from the prefix — check the endpoint. Refresh tokens are only sent to `/auth/refresh` and `/auth/logout`.

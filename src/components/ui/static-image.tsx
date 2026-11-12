@@ -2,7 +2,7 @@
 import type { CSSProperties } from 'react';
 
 type TStaticImageProps = {
-    /** Path of a design asset served from `/public`. */
+    /** Path or URL of the image to render. */
     src: string;
     className?: string;
     style?: CSSProperties;

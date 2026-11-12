@@ -33,8 +33,7 @@ const NAV_ITEMS: TNavigationItem[] = [
         iconClassName: 'h-[18.333px] w-[16.5px]',
     },
     {
-        // The profile route is still unguarded; it redirects to /user-check
-        // until the profile integration lands.
+        // Guarded on the client by ProfileScreen.
         href: '/profile',
         label: 'حساب',
         icon: '/assets/icons/landing/nav-account.svg',

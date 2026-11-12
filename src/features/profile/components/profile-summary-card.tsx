@@ -1,20 +1,32 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { DesignIcon } from '@/components/ui/design-icon';
-import { LinkButton } from '@/components/ui/link-button';
-import { StaticImage } from '@/components/ui/static-image';
 
-import { formatPhone } from '../profile.logic';
+import { profileDisplayName, profileSecondaryPhone } from '../profile.logic';
 import type { IProfile } from '../profile.models';
 
-/** Identity card: avatar, phone number, role pill, and the edit action. */
-export function ProfileSummaryCard({ profile }: { profile: IProfile }) {
+import { ProfileAvatar } from './profile-avatar';
+
+type TProfileSummaryCardProps = {
+    profile: IProfile;
+    onEdit: () => void;
+};
+
+/** Identity card: avatar, display name, phone number, and the edit action. */
+export function ProfileSummaryCard({ profile, onEdit }: TProfileSummaryCardProps) {
+    const name = profileDisplayName(profile);
+    const secondaryPhone = profileSecondaryPhone(profile);
+    const phoneIsPrimary = secondaryPhone === null;
+
     return (
         <Card className="p-4">
             <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                     <span className="relative size-14 shrink-0 overflow-hidden rounded-full bg-surface-high">
-                        <StaticImage
-                            src={profile.avatarSrc}
+                        <ProfileAvatar
+                            src={profile.avatar}
                             className="block size-full object-cover"
                         />
                         <span
@@ -23,26 +35,32 @@ export function ProfileSummaryCard({ profile }: { profile: IProfile }) {
                         />
                     </span>
 
-                    <div className="flex flex-col items-start">
-                        <p dir="ltr" className="text-sm leading-5 font-bold text-foreground">
-                            {formatPhone(profile.phone)}
+                    <div className="flex min-w-0 flex-col items-start">
+                        <p
+                            dir={phoneIsPrimary ? 'ltr' : undefined}
+                            className="max-w-full truncate text-sm leading-5 font-bold text-foreground"
+                        >
+                            {name}
                         </p>
-                        <span className="mt-1 rounded-full bg-surface-muted px-2 pt-px pb-0.5 text-[11px] leading-[16.5px] font-medium text-primary">
-                            {profile.role}
-                        </span>
+                        {secondaryPhone ? (
+                            <p
+                                dir="ltr"
+                                className="mt-1 max-w-full truncate text-xs leading-4 text-foreground-muted"
+                            >
+                                {secondaryPhone}
+                            </p>
+                        ) : null}
                     </div>
                 </div>
 
-                <LinkButton
-                    href="/profile/edit"
+                <Button
+                    type="button"
                     variant="soft"
-                    size="sm"
-                    trailingIcon={
-                        <DesignIcon src="/assets/icons/pencil.svg" className="size-[12.75px]" />
-                    }
+                    onClick={onEdit}
+                    icon={<DesignIcon src="/assets/icons/pencil.svg" className="size-[12.75px]" />}
                 >
                     ویرایش
-                </LinkButton>
+                </Button>
             </div>
         </Card>
     );

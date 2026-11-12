@@ -1,15 +1,9 @@
 import type { IPlusMembership, IProfile, IProfileMenuItem, IWalletSummary } from './profile.models';
 
 /**
- * Mock account data until the profile endpoints land. Pure constants only, so
- * this file stays testable and free of I/O.
+ * Static account-screen data. Identity comes from `/api/me`; the wallet and
+ * Plus cards remain placeholders until their endpoints land.
  */
-export const PROFILE_MOCK: IProfile = {
-    phone: '+989123456789',
-    role: 'ورزشکار',
-    avatarSrc: '/assets/images/avatar-placeholder.svg',
-};
-
 export const WALLET_MOCK: IWalletSummary = {
     balance: 1_450_000,
 };
@@ -74,4 +68,15 @@ export function formatPhone(phone: string): string {
     return `+${toPersianDigits(match[1])} ${toPersianDigits(match[2])} ${toPersianDigits(
         match[3],
     )} ${toPersianDigits(match[4])}`;
+}
+
+/** Primary identity line: the display name, or the phone when it is empty. */
+export function profileDisplayName(profile: IProfile): string {
+    const name = profile.nickName?.trim();
+    return name ? name : formatPhone(profile.phone);
+}
+
+/** Secondary phone line; only shown when a display name exists. */
+export function profileSecondaryPhone(profile: IProfile): string | null {
+    return profile.nickName?.trim() ? formatPhone(profile.phone) : null;
 }
