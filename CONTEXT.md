@@ -76,6 +76,18 @@ _Avoid_: field, location
 A fixed date and time interval on a Court that a User can book. UI term: سانس.
 _Avoid_: session, appointment
 
+**Availability**:
+The Time Slots on a Venue's Courts that are still free to book on a given day. UI term: سانس خالی.
+_Avoid_: capacity, open slots
+
+**Sport**:
+The discipline a Venue or Court serves — football, padel/tennis, basketball, or swimming. UI term: ورزش.
+_Avoid_: category, type
+
+**Venue Search**:
+The discovery surface where a User narrows Venues by name, location, Sport, price, rating, and today's Availability. UI term: جستجوی مجموعه ورزشی.
+_Avoid_: listing, filter page
+
 **Booking**:
 A User's confirmed reservation of a Time Slot. UI term: رزرو.
 _Avoid_: order, ticket

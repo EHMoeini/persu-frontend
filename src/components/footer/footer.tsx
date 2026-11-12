@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const FOOTER_LINKS = [
     { href: '/', label: 'صفحه اصلی' },
-    { href: '/venues', label: 'جستجوی مجموعه‌ها' },
+    { href: '/search', label: 'جستجوی مجموعه‌ها' },
     { href: '/bookings', label: 'پیگیری نوبت‌ها' },
     { href: '/terms', label: 'قوانین و پشتیبانی' },
 ];
