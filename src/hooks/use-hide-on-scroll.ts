@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const SCROLL_DIRECTION_THRESHOLD = 8;
+const SCROLL_DIRECTION_THRESHOLD = 32;
 const TOP_REVEAL_OFFSET = 64;
 
 /**
