@@ -125,6 +125,10 @@ export const createBrowserHttp = (baseUrl?: string) => {
             assertBrowser();
             return safeRequest(() => base.put<T>(path, body, withAuthHeader(init, opts)), opts);
         },
+        patch: <T>(path: string, body?: unknown, init?: RequestInit, opts?: TRequestOptions) => {
+            assertBrowser();
+            return safeRequest(() => base.patch<T>(path, body, withAuthHeader(init, opts)), opts);
+        },
         delete: <T>(path: string, init?: RequestInit, opts?: TRequestOptions) => {
             assertBrowser();
             return safeRequest(() => base.delete<T>(path, withAuthHeader(init, opts)), opts);

@@ -1,11 +1,10 @@
-import { redirect } from 'next/navigation';
+import { LogoutMenuButton } from '@/features/auth/components/logout-menu-button';
+import { ProfileScreen } from '@/features/profile/components/profile-screen';
 
 /**
- * Authenticated account page.
- *
- * Profile is out of scope for the auth integration; every visitor is sent
- * through the auth flow until the profile route guard is wired up.
+ * Account screen. Auth state, the live profile query and the edit sheet live
+ * in the profile feature; the route only supplies the auth-owned logout row.
  */
 export default function ProfilePage() {
-    redirect('/user-check');
+    return <ProfileScreen destructiveAction={<LogoutMenuButton />} />;
 }
