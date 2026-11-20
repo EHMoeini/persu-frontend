@@ -1,8 +1,6 @@
 import { unstable_noStore as noStore } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import { API_BASE_URL } from '@/constants/api.constant';
-
 import { buildCommonHeaders } from './http-common-headers';
 import { createHttp, type HttpError } from './http-core';
 
@@ -43,7 +41,7 @@ const safeRequest = async <T>(request: Promise<T>): Promise<T> => {
     }
 };
 
-export const httpRaw = createHttp(API_BASE_URL, buildServerHeaders);
+export const httpRaw = createHttp(process.env.NEXT_PUBLIC_API_BASE_URL, buildServerHeaders);
 
 export const http = {
     get: <T>(path: string, init?: RequestInit) => safeRequest(httpRaw.get<T>(path, init)),

@@ -31,7 +31,7 @@ import {
 } from './auth.schema';
 
 const AUTH_OPTIONS = { skipErrorRedirect: true } as const;
-const API_ORIGIN = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/+$/, '');
+const API_ORIGIN = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 function authUrl(path: string): string {
     return `${API_ORIGIN}${path}`;

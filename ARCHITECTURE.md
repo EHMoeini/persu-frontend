@@ -38,15 +38,17 @@ Next.js (App Router) + Tailwind v4 + Bun. All code in `src/`. Lint/format: ESLin
 
 ## 4. API layer
 
-- **Endpoint paths** live in `src/constants/endpoints.constant.ts` as `EXTERNAL_ENDPOINTS`. Paths only — never a base URL, never a fetch call. Group by domain; use the function form for parameterized paths:
+- **Endpoint paths** live in `src/constants/endpoints.constant.ts` as `EXTERNAL_ENDPOINTS`. Paths only — never a base URL, never a fetch call. **A path never starts with `/`** (and never ends with one): the base URL and the path are joined by plain concatenation, so a leading slash turns into `https://api.example.com//auth/login`. Group by domain; use the function form for parameterized paths:
     ```ts
     export const EXTERNAL_ENDPOINTS = {
-        SOMETHING: '/api/something',
-        FUNCTION_SOMETHING: (id: number) => `/api/something/${id}`,
+        SOMETHING: 'api/something',
+        FUNCTION_SOMETHING: (id: number) => `api/something/${id}`,
     };
     ```
 - **Query keys** live in `src/constants/query-keys.constant.ts` as `QUERY_KEYS`. Every key is a readonly array (TanStack Query v5); parameterized resources use a function returning an array. One entry per cached resource.
-- **Client I/O** lives in `src/features/<domain>/<domain>.client.endpoint.ts`. Compose `${process.env.NEXT_PUBLIC_API_BASE_URL}${EXTERNAL_ENDPOINTS.X}`, call `httpClient`, and return the wire model. No mapping, no React.
+- **Client I/O** lives in `src/features/<domain>/<domain>.client.endpoint.ts`. Read `process.env.NEXT_PUBLIC_API_BASE_URL` and use it **verbatim** — no trimming, no `.replace(/\/+$/, '')`, no `new URL()` normalization, no "just in case" slash handling. Compose the absolute URL as `${process.env.NEXT_PUBLIC_API_BASE_URL}${EXTERNAL_ENDPOINTS.X}`, call `httpClient`, and return the wire model. No mapping, no React.
+- **DRY is deliberately ignored for that composition.** Both sides are already in the shape the concatenation needs: the configured base URL ends with `/` (it is the origin plus the joining slash) and every `EXTERNAL_ENDPOINTS` path starts without one. Do not extract a shared base-URL constant or normalizing helper to deduplicate the concatenation across feature files, and do not wrap the env read in a helper that quietly rewrites it. Each `.client.endpoint.ts` does the concatenation itself, visibly. A malformed base URL (missing trailing slash, extra path, wrong scheme) is fixed in the env file, not compensated for in code. This holds in every client endpoint file — no exceptions. (`http-server.ts` and `auth-refresh.ts` read the same env var, but hand it to `createHttp`, where `http-core.ts`'s `joinUrl` normalizes the seam. That tolerance belongs to the shared factory — not to endpoint files.)
+- **Violation = reject**: an `EXTERNAL_ENDPOINTS` value beginning with `/`, or any base-URL normalization/rebuilding inside a client endpoint.
 - **Queries** live in `src/features/<domain>/<domain>.query.ts` (or beside the component for a local resource). They wrap client endpoint functions in `useQuery` and use `QUERY_KEYS`; no raw I/O.
 - **Mutations and other hooks** live in `*.hook.ts(x)`; mutations wrap client endpoint functions in `useMutation`.
 - **Mutation hooks only declare `mutationKey` and `mutationFn`.** They must not own `onSuccess`, `onError`, `onSettled`, navigation, or local UI state. Domain cache reconciliation belongs inside `mutationFn` (or a domain action it calls), so callers do not repeat query-key knowledge. Return the mutation and let the call site destructure `mutate` and `isPending`:
