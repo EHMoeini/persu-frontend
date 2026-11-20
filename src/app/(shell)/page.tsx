@@ -1,5 +1,6 @@
 import { ContactCard } from '@/features/landing/components/contact-card';
 import { FaqCard } from '@/features/landing/components/faq-card';
+import { IranMap } from '@/features/landing/components/iran-map';
 import { LandingBrand } from '@/features/landing/components/landing-brand';
 import { SportSearchCard } from '@/features/landing/components/sport-search-card';
 import { SportShowcase } from '@/features/landing/SportShowcase';
@@ -10,6 +11,7 @@ export default function Page() {
             <LandingBrand />
             <SportShowcase />
             <SportSearchCard />
+            <IranMap />
             <FaqCard />
             <ContactCard />
         </div>
