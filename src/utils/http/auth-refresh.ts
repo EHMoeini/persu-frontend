@@ -1,6 +1,5 @@
 'use client';
 
-import { API_BASE_URL } from '@/constants/api.constant';
 import { EXTERNAL_ENDPOINTS } from '@/constants/endpoints.constant';
 import { getPersistedRefreshToken, useAuthStore } from '@/stores/auth.store';
 
@@ -12,7 +11,7 @@ export type TRefreshResponse = {
     refreshToken: string;
 };
 
-const http = createHttp(API_BASE_URL, () =>
+const http = createHttp(process.env.NEXT_PUBLIC_API_BASE_URL, () =>
     buildCommonHeaders({ secondsFromUtc: -new Date().getTimezoneOffset() * 60 }),
 );
 

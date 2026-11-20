@@ -1,7 +1,7 @@
 import { devLog } from '../logger.util';
 
 type BuildHeaders = () => HeadersInit | Promise<HeadersInit>;
-type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 type HttpErrorInput = {
     method: Method;
@@ -166,6 +166,8 @@ export function createHttp(baseUrl?: string, buildHeaders: BuildHeaders = () => 
             send<T>('POST', path, body, init),
         put: <T>(path: string, body?: unknown, init?: RequestInit) =>
             send<T>('PUT', path, body, init),
+        patch: <T>(path: string, body?: unknown, init?: RequestInit) =>
+            send<T>('PATCH', path, body, init),
         delete: <T>(path: string, init?: RequestInit) => send<T>('DELETE', path, undefined, init),
     };
 }

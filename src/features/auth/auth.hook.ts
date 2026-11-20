@@ -67,7 +67,6 @@ export function useLoginWithPassword() {
 
 /** Revokes the refresh-token family and clears local auth state. */
 export function useLogout() {
-    const router = useRouter();
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -79,8 +78,10 @@ export function useLogout() {
         },
         onSettled: () => {
             useAuthStore.getState().clearSession();
+            queryClient.removeQueries({ queryKey: QUERY_KEYS.PROFILE });
             queryClient.setQueryData(QUERY_KEYS.AUTH_SESSION, null);
-            router.replace('/user-check');
+            // Full replace so the profile guard cannot race us back to /user-check.
+            window.location.replace('/');
         },
     });
 }

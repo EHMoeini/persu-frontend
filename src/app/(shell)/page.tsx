@@ -1,11 +1,13 @@
 import { ContactCard } from '@/features/landing/components/contact-card';
 import { FaqCard } from '@/features/landing/components/faq-card';
+import { LandingBrand } from '@/features/landing/components/landing-brand';
 import { SportSearchCard } from '@/features/landing/components/sport-search-card';
 import { SportShowcase } from '@/features/landing/SportShowcase';
 
 export default function Page() {
     return (
-        <div className="flex w-full flex-col gap-5 px-4 pt-4 pb-6">
+        <div className="flex w-full flex-col gap-5 px-4 pt-6 pb-6">
+            <LandingBrand />
             <SportShowcase />
             <SportSearchCard />
             <FaqCard />

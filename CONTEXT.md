@@ -10,6 +10,16 @@ Persu (پرسو) is a sports-hall and court booking platform: venues list their 
 The product this repository builds — the booking platform itself.
 _Avoid_: Persue, Perso, "the app"
 
+### Chrome
+
+**Header**:
+The persistent brand bar at the top of shell pages: the logo mark, پرسو, and the product tagline.
+_Avoid_: navbar, app bar
+
+**Landing Brand**:
+The large centered logo mark and پرسو at the top of the landing page. It is not the Header: it stands in for it while it is in the viewport, and the Header takes over once the Landing Brand scrolls fully out, until the Landing Brand returns.
+_Avoid_: hero logo, splash logo
+
 ### Accounts and sign-in
 
 **User**:
@@ -18,7 +28,15 @@ _Avoid_: customer, client, member
 
 **Account**:
 A User's registered record on Persu. A Phone Number has an Account once registration completes; until then it is only a pending number.
-_Avoid_: profile, membership
+_Avoid_: membership
+
+**Profile**:
+The public display projection of an Account: the Display Name and avatar, plus the Phone Number it exposes. A Profile is not the Account — changing it does not change sign-in identity. UI screen: حساب کاربری.
+_Avoid_: account, user
+
+**Display Name**:
+The name shown on a Profile. It may be the full name captured at Register; when empty, the Profile falls back to the Phone Number.
+_Avoid_: nickname
 
 **Phone Number**:
 The credential that identifies a User — an Iranian mobile number in local form (`09xxxxxxxxx`).
@@ -57,6 +75,18 @@ _Avoid_: field, location
 **Time Slot**:
 A fixed date and time interval on a Court that a User can book. UI term: سانس.
 _Avoid_: session, appointment
+
+**Availability**:
+The Time Slots on a Venue's Courts that are still free to book on a given day. UI term: سانس خالی.
+_Avoid_: capacity, open slots
+
+**Sport**:
+The discipline a Venue or Court serves — football, padel/tennis, basketball, or swimming. UI term: ورزش.
+_Avoid_: category, type
+
+**Venue Search**:
+The discovery surface where a User narrows Venues by name, location, Sport, price, rating, and today's Availability. UI term: جستجوی مجموعه ورزشی.
+_Avoid_: listing, filter page
 
 **Booking**:
 A User's confirmed reservation of a Time Slot. UI term: رزرو.
