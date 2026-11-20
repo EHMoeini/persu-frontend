@@ -6,7 +6,7 @@ import { httpClient } from '@/utils/http/http-client';
 import type { IProfileResponse, IProfileUpdate } from './profile.models';
 import { profileResponseSchema, profileUpdateInputSchema } from './profile.schema';
 
-const API_ORIGIN = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/+$/, '');
+const API_ORIGIN = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 function profileUrl(): string {
     return `${API_ORIGIN}${EXTERNAL_ENDPOINTS.PROFILE_ME}`;
