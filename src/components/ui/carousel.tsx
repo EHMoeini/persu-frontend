@@ -20,7 +20,17 @@ export type CarouselProps = {
     /** Extra classes for the horizontal scrolling viewport. */
     viewportClassName?: string;
     showSlides?: boolean;
+    /** Width of each slide. Defaults to the full viewport. */
+    slideWidthClassName?: string;
+    /** Snap alignment of each slide; use `start` for peek carousels. */
+    slideSnap?: 'center' | 'start' | 'end';
 };
+
+const SNAP_CLASS_NAMES = {
+    center: 'snap-center',
+    start: 'snap-start',
+    end: 'snap-end',
+} as const;
 
 /**
  * Full-width, snap-scrolling carousel with optional autoplay and pagination.
@@ -35,6 +45,8 @@ export function Carousel({
     className,
     viewportClassName,
     showSlides = false,
+    slideWidthClassName = 'w-full',
+    slideSnap = 'center',
 }: CarouselProps) {
     const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
     const scrollerRef = useRef<HTMLDivElement>(null);
@@ -48,10 +60,10 @@ export function Carousel({
             slideRefs.current[index]?.scrollIntoView({
                 behavior: reduceMotion ? 'auto' : 'smooth',
                 block: 'nearest',
-                inline: 'center',
+                inline: slideSnap,
             });
         },
-        [reduceMotion],
+        [reduceMotion, slideSnap],
     );
 
     // Tracks the visible slide so autoplay starts from wherever the user is.
@@ -125,7 +137,7 @@ export function Carousel({
                         role="group"
                         aria-roledescription="slide"
                         aria-label={`${index + 1} از ${slides.length}: ${slide.label}`}
-                        className="w-full shrink-0 snap-center snap-always"
+                        className={`${slideWidthClassName} shrink-0 ${SNAP_CLASS_NAMES[slideSnap]} snap-always`}
                     >
                         {slide.content}
                     </div>
