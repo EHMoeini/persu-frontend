@@ -2,7 +2,7 @@ import { Carousel, type CarouselSlide } from '@/components/ui/carousel';
 import { DesignIcon } from '@/components/ui/design-icon';
 import { LinkButton } from '@/components/ui/link-button';
 
-import { PopularVenueCard, type TPopularVenue } from './popular-venue-card';
+import { PopularFacilityCard, type TPopularFacility } from './popular-facility-card';
 
 type TSportPill = {
     id: string;
@@ -66,7 +66,7 @@ const FEATURES: TFeature[] = [
     },
 ];
 
-const POPULAR_VENUES: readonly TPopularVenue[] = [
+const POPULAR_FACILITIES: readonly TPopularFacility[] = [
     {
         slug: 'olympic-aquatic',
         name: 'استخر و سونای ولنجک',
@@ -105,10 +105,10 @@ const POPULAR_VENUES: readonly TPopularVenue[] = [
     },
 ];
 
-const POPULAR_VENUE_SLIDES: readonly CarouselSlide[] = POPULAR_VENUES.map((venue) => ({
-    id: venue.slug,
-    label: venue.name,
-    content: <PopularVenueCard venue={venue} />,
+const POPULAR_FACILITY_SLIDES: readonly CarouselSlide[] = POPULAR_FACILITIES.map((facility) => ({
+    id: facility.slug,
+    label: facility.name,
+    content: <PopularFacilityCard facility={facility} />,
 }));
 
 /** Landing section that sends the visitor from discovery into court search. */
@@ -166,7 +166,7 @@ export function SportSearchCard() {
 
                 <Carousel
                     ariaLabel="محبوب‌ترین سالن‌ها و زمین‌ها"
-                    slides={POPULAR_VENUE_SLIDES}
+                    slides={POPULAR_FACILITY_SLIDES}
                     autoplayInterval={0}
                     slideWidthClassName="w-[220px]"
                     slideSnap="start"

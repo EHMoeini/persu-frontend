@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
+
+import { useBottomNavStore } from '@/stores/bottom-nav.store';
 
 const SCROLL_DIRECTION_THRESHOLD = 32;
 const TOP_REVEAL_OFFSET = 64;
@@ -9,15 +11,18 @@ const TOP_REVEAL_OFFSET = 64;
  * Reports whether floating shell chrome should hide. The chrome hides after a
  * downward scroll, returns after an upward scroll, is always visible near the
  * top, and resets whenever `revealKey` changes (route navigation).
+ *
+ * The state lives in the BottomNav store, so sticky elements anchored to the
+ * nav move with it instead of being left behind when it slides away.
  */
 export function useHideOnScroll(revealKey: string) {
-    const [hidden, setHidden] = useState(false);
-    const [lastRevealKey, setLastRevealKey] = useState(revealKey);
+    const hidden = useBottomNavStore((state) => state.hidden);
+    const setHidden = useBottomNavStore((state) => state.setHidden);
 
-    if (revealKey !== lastRevealKey) {
-        setLastRevealKey(revealKey);
+    // Before paint, so a new route never flashes the previous route's state.
+    useLayoutEffect(() => {
         setHidden(false);
-    }
+    }, [revealKey, setHidden]);
 
     useEffect(() => {
         let lastScrollY = window.scrollY;
@@ -58,7 +63,7 @@ export function useHideOnScroll(revealKey: string) {
             window.removeEventListener('scroll', handleScroll);
             window.cancelAnimationFrame(animationFrame);
         };
-    }, [revealKey]);
+    }, [revealKey, setHidden]);
 
     return hidden;
 }

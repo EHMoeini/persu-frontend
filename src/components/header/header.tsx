@@ -48,7 +48,7 @@ function HeaderBrand({ revealed }: { revealed?: boolean }) {
 }
 
 /** Header for every shell page except the landing page. */
-function StaticHeader() {
+export function StaticHeader() {
     return (
         <div className="sticky top-0 right-0 z-20 w-full">
             <header className="flex w-full items-center justify-between bg-surface-card px-4 pt-3 pb-4 drop-shadow-subtle">

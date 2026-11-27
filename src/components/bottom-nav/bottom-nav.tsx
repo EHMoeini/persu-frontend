@@ -44,17 +44,7 @@ const NAV_ITEMS: TNavigationItem[] = [
 const NAVIGATION_MOTION_CLASS_NAMES =
     'duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none';
 
-/** Floating bottom navigation for every shell page. */
-export function BottomNav() {
-    const pathname = usePathname();
-    const hidden = useHideOnScroll(pathname);
-
-    const activeIndex = NAV_ITEMS.findIndex((item) =>
-        item.href === '/'
-            ? pathname === '/'
-            : pathname === item.href || pathname.startsWith(`${item.href}/`),
-    );
-
+function BottomNavFrame({ activeIndex, hidden }: { activeIndex: number; hidden: boolean }) {
     return (
         <div
             className={`pointer-events-none fixed inset-x-0 bottom-0 z-30 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] transition-transform ${NAVIGATION_MOTION_CLASS_NAMES} ${
@@ -104,4 +94,26 @@ export function BottomNav() {
             </nav>
         </div>
     );
+}
+
+/** Floating bottom navigation for every shell page. */
+export function BottomNav() {
+    const pathname = usePathname();
+    const hidden = useHideOnScroll(pathname);
+
+    const activeIndex = NAV_ITEMS.findIndex((item) =>
+        item.href === '/'
+            ? pathname === '/'
+            : pathname === item.href || pathname.startsWith(`${item.href}/`),
+    );
+
+    return <BottomNavFrame activeIndex={activeIndex} hidden={hidden} />;
+}
+
+/**
+ * Prerender fallback. The nav shell is static; only the active item needs the
+ * pathname, which is unavailable while a dynamic route is prerendered.
+ */
+export function StaticBottomNav() {
+    return <BottomNavFrame activeIndex={-1} hidden={false} />;
 }

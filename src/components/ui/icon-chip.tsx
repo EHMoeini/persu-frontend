@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 export type TIconChipTone = 'sunken' | 'muted' | 'high';
+export type TIconChipSize = 'md' | 'sm';
 
 const TONE_CLASS_NAMES: Record<TIconChipTone, string> = {
     sunken: 'bg-surface-sunken',
@@ -8,10 +9,17 @@ const TONE_CLASS_NAMES: Record<TIconChipTone, string> = {
     high: 'bg-surface-high',
 };
 
+const SIZE_CLASS_NAMES: Record<TIconChipSize, string> = {
+    md: 'size-10',
+    sm: 'size-8',
+};
+
 type TIconChipBaseProps = {
     children: ReactNode;
     /** Surface role; the default sunken chip is the header/auth back control. */
     tone?: TIconChipTone;
+    /** Chip size; `sm` is the 32px inline action. */
+    size?: TIconChipSize;
     /** Corner radius utility; defaults to the 8px chip radius. */
     radiusClassName?: string;
 };
@@ -28,9 +36,10 @@ export function IconChip({
     label,
     onClick,
     tone = 'sunken',
+    size = 'md',
     radiusClassName = 'rounded-lg',
 }: TIconChipProps) {
-    const className = `flex size-10 shrink-0 items-center justify-center ${radiusClassName} ${TONE_CLASS_NAMES[tone]} drop-shadow-subtle`;
+    const className = `flex ${SIZE_CLASS_NAMES[size]} shrink-0 items-center justify-center ${radiusClassName} ${TONE_CLASS_NAMES[tone]} drop-shadow-subtle`;
 
     if (onClick) {
         return (

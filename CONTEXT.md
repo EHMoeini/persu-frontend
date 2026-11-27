@@ -80,6 +80,18 @@ _Avoid_: session, appointment
 The Time Slots on a Facility's Courts that are still free to book on a given day. UI term: سانس خالی.
 _Avoid_: capacity, open slots
 
+**Amenity**:
+A service or piece of equipment a Facility offers alongside its Courts - locker rooms, parking, equipment rental, café, coaching, or Wi-Fi. UI term: امکانات.
+_Avoid_: feature, service, facility
+
+**Review**:
+A player's rating and written feedback about a Facility. UI term: دیدگاه / نظر.
+_Avoid_: comment, feedback
+
+**Weekly Availability**:
+The seven-day view of a Facility's Time Slots per Court, marking reserved, selected, and free Time Slots. UI term: جدول رزرواسیون هفتگی.
+_Avoid_: calendar, timetable
+
 **Sport**:
 The discipline a Facility or Court serves — football, padel/tennis, basketball, or swimming. UI term: ورزش.
 _Avoid_: category, type
