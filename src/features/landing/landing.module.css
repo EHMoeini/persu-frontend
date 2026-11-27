@@ -5,16 +5,81 @@
     padding: 0 20px max(80px, env(safe-area-inset-bottom));
 }
 
-.faqChevron {
-    transition: transform 150ms ease;
+/* Iran map: dotted silhouette, city hotspots and reservation bubbles */
+
+.mapDots {
+    fill: var(--primary);
+    fill-opacity: 0.45;
 }
 
-.faq[open] .faqChevron {
-    transform: rotate(180deg);
+.mapTonePrimary {
+    --map-accent: var(--primary);
+}
+
+.mapToneSecondary {
+    --map-accent: var(--secondary);
+}
+
+.mapToneTertiary {
+    --map-accent: var(--tertiary);
+}
+
+.mapDot {
+    background: var(--map-accent);
+}
+
+.mapAccentDot {
+    background: var(--map-accent);
+}
+
+.mapAccentText {
+    color: var(--map-accent);
+}
+
+.mapHalo {
+    background: color-mix(in srgb, var(--map-accent) 45%, transparent);
+    animation: mapHaloPulse 2.4s ease-in-out infinite;
+}
+
+.mapBubble {
+    opacity: 0;
+    transform: translateY(2px) scale(0.96);
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+    pointer-events: none;
+}
+
+.mapBubbleVisible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+}
+
+.mapTail {
+    border-color: color-mix(in srgb, var(--map-accent) 20%, transparent);
+}
+
+@keyframes mapHaloPulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.75;
+    }
+
+    55% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .faqChevron {
+    .mapHalo {
+        animation: none;
+    }
+
+    .mapBubble {
+        transform: none;
         transition: none;
     }
 }
