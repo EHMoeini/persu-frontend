@@ -6,12 +6,7 @@ import { BottomSheet } from '@/components/ui/bottom-sheet';
 import { Button } from '@/components/ui/button';
 import { TextButton } from '@/components/ui/text-button';
 
-import {
-    DEFAULT_FILTER_DRAFT,
-    MAX_PRICE_OPTIONS,
-    MIN_RATING_OPTIONS,
-    SPORT_FILTERS,
-} from '../search.logic';
+import { DEFAULT_FILTER_DRAFT, MAX_PRICE_OPTIONS, MIN_RATING_OPTIONS } from '../search.logic';
 import type { TFilterDraft } from '../search.models';
 
 import { FilterChip } from './filter-chip';
@@ -28,7 +23,7 @@ type TSearchFilterFormProps = {
     onApply: (filters: TFilterDraft) => void;
 };
 
-/** Advanced filters, applied to the mock catalogue when the form is submitted. */
+/** Advanced filters, applied to the fetched results when the form is submitted. */
 export function SearchFilterSheet({ open, filters, onClose, onApply }: TSearchFilterSheetProps) {
     return (
         <BottomSheet open={open} onClose={onClose} title="فیلتر پیشرفته" closeLabel="بستن">
@@ -55,28 +50,6 @@ function SearchFilterForm({ filters, onApply }: TSearchFilterFormProps) {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <section>
-                <h3 className="text-xs leading-4 font-semibold text-foreground">ورزش</h3>
-                <div className="mt-2 flex flex-wrap gap-2">
-                    {SPORT_FILTERS.map((option) => {
-                        const active = draft.sport === option.id;
-
-                        return (
-                            <FilterChip
-                                key={option.id}
-                                variant="option"
-                                label={option.label}
-                                icon={option.icon}
-                                iconClassName={option.iconClassName}
-                                active={active}
-                                maskIcon={option.maskInactive || active}
-                                onClick={() => update('sport', option.id)}
-                            />
-                        );
-                    })}
-                </div>
-            </section>
-
             <section>
                 <h3 className="text-xs leading-4 font-semibold text-foreground">حداکثر قیمت</h3>
                 <div className="mt-2 flex flex-wrap gap-2">
@@ -108,17 +81,12 @@ function SearchFilterForm({ filters, onApply }: TSearchFilterFormProps) {
             </section>
 
             <section>
-                <h3 className="text-xs leading-4 font-semibold text-foreground">سانس و تخفیف</h3>
+                <h3 className="text-xs leading-4 font-semibold text-foreground">سانس</h3>
                 <div className="mt-2 flex flex-col gap-2">
                     <FilterCheckbox
                         label="فقط مجموعه‌های دارای سانس خالی امروز"
                         checked={draft.freeSlotsOnly}
                         onChange={(checked) => update('freeSlotsOnly', checked)}
-                    />
-                    <FilterCheckbox
-                        label="فقط مجموعه‌های تخفیف‌دار"
-                        checked={draft.discountedOnly}
-                        onChange={(checked) => update('discountedOnly', checked)}
                     />
                 </div>
             </section>

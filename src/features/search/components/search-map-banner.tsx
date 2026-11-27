@@ -2,7 +2,7 @@ import { DesignIcon } from '@/components/ui/design-icon';
 import { LinkButton } from '@/components/ui/link-button';
 import { MaskedIcon } from '@/components/ui/masked-icon';
 
-/** Interstitial shortcut from the venue list to the map experience. */
+/** Interstitial shortcut from the facility list to the map experience. */
 export function SearchMapBanner() {
     return (
         <div className="flex items-center justify-between gap-3 rounded-2xl bg-linear-to-l from-primary-fixed to-surface-high p-3.5">
