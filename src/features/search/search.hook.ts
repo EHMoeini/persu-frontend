@@ -7,21 +7,20 @@ import { useDebounce } from '@/hooks/use-debounce';
 
 import {
     DEFAULT_SEARCH_PARAMS,
+    filterFacilities,
     hasAdvancedFilters,
-    hasPriceSlotFilters,
     parseSearchParams,
-    searchVenues,
     serializeSearchParams,
-    VENUES,
 } from './search.logic';
-import type { ISearchParams, TFilterDraft, TSportFilter, TVenueSort } from './search.models';
+import type { ISearchParams, TFacilitySort, TFilterDraft, TSportFilter } from './search.models';
+import { useFacilitySearch } from './search.query';
 
 const QUERY_DEBOUNCE_MS = 300;
 
 /**
- * Mock search state. The URL is the shareable contract: query, sport, sort and
- * advanced filters round-trip through it via the native History API, while the
- * live input stays local until the debounce settles.
+ * Live facility search. The URL is the shareable contract: query, sport, sort
+ * and advanced filters round-trip through it via the native History API, while
+ * the live input stays local until the debounce settles.
  */
 export function useSearchScreen() {
     const pathname = usePathname();
@@ -33,7 +32,9 @@ export function useSearchScreen() {
     const lastWrittenRef = useRef(searchParamsString);
 
     const debouncedQuery = useDebounce(state.query, QUERY_DEBOUNCE_MS);
-    const { sport, sort, minRating, maxPrice, freeSlotsOnly, discountedOnly } = state;
+    const { sport, sort, minRating, maxPrice, freeSlotsOnly } = state;
+
+    const { data, isPending, isError, refetch } = useFacilitySearch(debouncedQuery);
 
     // Back/forward or an external link changes the URL under a mounted screen.
     useEffect(() => {
@@ -46,7 +47,7 @@ export function useSearchScreen() {
     // Keep the shareable URL in sync; the debounced query is the applied one.
     useEffect(() => {
         const next = serializeSearchParams(
-            { sport, sort, minRating, maxPrice, freeSlotsOnly, discountedOnly },
+            { sport, sort, minRating, maxPrice, freeSlotsOnly },
             debouncedQuery,
             new URLSearchParams(window.location.search),
         ).toString();
@@ -55,16 +56,18 @@ export function useSearchScreen() {
 
         lastWrittenRef.current = next;
         window.history.replaceState(null, '', next ? `${pathname}?${next}` : pathname);
-    }, [sport, sort, minRating, maxPrice, freeSlotsOnly, discountedOnly, debouncedQuery, pathname]);
+    }, [sport, sort, minRating, maxPrice, freeSlotsOnly, debouncedQuery, pathname]);
 
     const results = useMemo(
         () =>
-            searchVenues(
-                VENUES,
-                { sport, sort, minRating, maxPrice, freeSlotsOnly, discountedOnly },
-                debouncedQuery,
-            ),
-        [sport, sort, minRating, maxPrice, freeSlotsOnly, discountedOnly, debouncedQuery],
+            filterFacilities(data?.facilities ?? [], {
+                sport,
+                sort,
+                minRating,
+                maxPrice,
+                freeSlotsOnly,
+            }),
+        [data, sport, sort, minRating, maxPrice, freeSlotsOnly],
     );
 
     const setQuery = useCallback((query: string) => {
@@ -75,7 +78,7 @@ export function useSearchScreen() {
         setState((previous) => ({ ...previous, sport: nextSport }));
     }, []);
 
-    const selectSort = useCallback((nextSort: TVenueSort) => {
+    const selectSort = useCallback((nextSort: TFacilitySort) => {
         setState((previous) => ({ ...previous, sort: nextSort }));
     }, []);
 
@@ -98,11 +101,12 @@ export function useSearchScreen() {
         minRating,
         maxPrice,
         freeSlotsOnly,
-        discountedOnly,
         results,
         resultCount: results.length,
+        isPending,
+        isError,
+        retry: refetch,
         hasAdvancedFilters: hasAdvancedFilters(state),
-        hasPriceSlotFilters: hasPriceSlotFilters(state),
         isFilterSheetOpen,
         setQuery,
         selectSport,

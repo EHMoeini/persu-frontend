@@ -1,6 +1,6 @@
 # Persu
 
-Persu (پرسو) is a sports-hall and court booking platform: venues list their halls and time slots, users book them. The product is Persian-first and RTL.
+Persu (پرسو) is a sports-hall and court booking platform: facilities list their halls and time slots, users book them. The product is Persian-first and RTL.
 
 ## Language
 
@@ -62,14 +62,14 @@ _Avoid_: sign up, signup, enrolment
 A User's authenticated presence on a device, created by Login or Register and ended by Logout. A Session is not the Account: ending it does not delete the Account.
 _Avoid_: auth state, login state, token
 
-### Venues and booking
+### Facilities and booking
 
-**Venue**:
-A sports facility listed on Persu that offers one or more bookable Courts. UI term: مجموعه ورزشی.
-_Avoid_: club, facility
+**Facility**:
+A listed sports hall or club on Persu that offers one or more bookable Courts. The API and the code call it a Facility; the UI term is مجموعه ورزشی.
+_Avoid_: venue, club
 
 **Court**:
-A bookable playing surface at a Venue — a football pitch, volleyball court, tennis court, futsal hall, padel court, etc. UI term: زمین / سالن.
+A bookable playing surface at a Facility — a football pitch, volleyball court, tennis court, futsal hall, padel court, etc. UI term: زمین / سالن.
 _Avoid_: field, location
 
 **Time Slot**:
@@ -77,16 +77,16 @@ A fixed date and time interval on a Court that a User can book. UI term: سان�
 _Avoid_: session, appointment
 
 **Availability**:
-The Time Slots on a Venue's Courts that are still free to book on a given day. UI term: سانس خالی.
+The Time Slots on a Facility's Courts that are still free to book on a given day. UI term: سانس خالی.
 _Avoid_: capacity, open slots
 
 **Sport**:
-The discipline a Venue or Court serves — football, padel/tennis, basketball, or swimming. UI term: ورزش.
+The discipline a Facility or Court serves — football, padel/tennis, basketball, or swimming. UI term: ورزش.
 _Avoid_: category, type
 
-**Venue Search**:
-The discovery surface where a User narrows Venues by name, location, Sport, price, rating, and today's Availability. UI term: جستجوی مجموعه ورزشی.
-_Avoid_: listing, filter page
+**Facility Search**:
+The discovery surface where a User narrows Facilities by name, location, Sport, price, rating, and today's Availability. UI term: جستجوی مجموعه ورزشی.
+_Avoid_: venue search, listing, filter page
 
 **Booking**:
 A User's confirmed reservation of a Time Slot. UI term: رزرو.

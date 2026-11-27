@@ -5,12 +5,12 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { MaskedIcon } from '@/components/ui/masked-icon';
 
 import { formatPersianNumber, SORT_OPTIONS } from '../search.logic';
-import type { TVenueSort } from '../search.models';
+import type { TFacilitySort } from '../search.models';
 
 type TSearchResultsMetaProps = {
     count: number;
-    sort: TVenueSort;
-    onSortChange: (sort: TVenueSort) => void;
+    sort: TFacilitySort;
+    onSortChange: (sort: TFacilitySort) => void;
 };
 
 /** Live result count on the right, sort menu on the left. */
@@ -24,7 +24,7 @@ export function SearchResultsMeta({ count, sort, onSortChange }: TSearchResultsM
                 aria-live="polite"
                 className="shrink-0 text-xs leading-4 font-bold text-foreground"
             >
-                {formatPersianNumber(count)} مجموعه ورزشی فعال
+                {formatPersianNumber(count)} مجموعه ورزشی
             </p>
 
             <Menu as="div" className="relative">

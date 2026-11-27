@@ -1,27 +1,23 @@
 'use client';
 
-import { FilterChip } from './filter-chip';
-
 import { SPORT_FILTERS } from '../search.logic';
-import type { TSportFilter, TVenueSort } from '../search.models';
+import type { TSportFilter } from '../search.models';
+
+import { FilterChip } from './filter-chip';
 
 type TSearchFilterStripProps = {
     sport: TSportFilter;
-    sort: TVenueSort;
     priceSlotFilterActive: boolean;
     onSportChange: (sport: TSportFilter) => void;
     onOpenFilters: () => void;
-    onSelectNearest: () => void;
 };
 
 /** Horizontally scrolling quick filters. The active sport chip starts at the right. */
 export function SearchFilterStrip({
     sport,
-    sort,
     priceSlotFilterActive,
     onSportChange,
     onOpenFilters,
-    onSelectNearest,
 }: TSearchFilterStripProps) {
     return (
         <div className="pt-1 pb-2">
@@ -54,16 +50,6 @@ export function SearchFilterStrip({
                     active={priceSlotFilterActive}
                     maskIcon
                     onClick={onOpenFilters}
-                />
-
-                <FilterChip
-                    variant="utility"
-                    label="نزدیک‌ترین"
-                    icon="/assets/icons/search/chip-nearest.svg"
-                    iconClassName="size-3"
-                    active={sort === 'distance'}
-                    maskIcon
-                    onClick={onSelectNearest}
                 />
             </div>
         </div>

@@ -14,4 +14,5 @@ export const EXTERNAL_ENDPOINTS = {
     AUTH_REFRESH: 'auth/refresh',
     AUTH_SESSION: 'auth/session',
     PROFILE_ME: 'api/me',
+    FACILITIES_SEARCH: 'api/facilities',
 } as const;
