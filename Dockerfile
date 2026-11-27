@@ -15,7 +15,7 @@ WORKDIR /app
 COPY package.json bun.lock ./
 
 # Install all dependencies (including devDependencies needed for build)
-RUN bun install --frozen-lockfile
+RUN bun install
 
 # ------------------------------------------------------------------------------
 # Stage 2: Build the Next.js application
