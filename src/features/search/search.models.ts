@@ -5,43 +5,39 @@ export type TSportId = 'football' | 'paddle' | 'basketball' | 'pool';
 export type TSportFilter = TSportId | 'all';
 
 /** Result ordering shown in the meta bar. */
-export type TVenueSort = 'satisfaction' | 'price' | 'distance';
+export type TFacilitySort = 'satisfaction' | 'price';
 
-/** The short badge on the photo and the reason the card highlights a venue. */
-export type TVenueHighlightKind = 'slots' | 'surface' | 'discount' | 'amenity';
-
-export interface IVenueHighlight {
-    kind: TVenueHighlightKind;
-    label: string;
+/** One facility as returned by `GET /api/facilities`. */
+export interface IFacility {
+    id: string;
+    name: string;
+    description?: string;
+    /** Sport family, e.g. «Football» or «Swimming». */
+    category?: string;
+    /** Surface or venue kind, e.g. «Soccer Field» or «Indoor Pool». */
+    type?: string;
+    location?: string;
+    /** Price per Time Slot, in تومان. */
+    price?: number;
+    /** Cover image URL. */
+    picture?: string;
+    rating?: number;
+    /** Whether the facility has free Time Slots today. */
+    availability?: boolean;
 }
 
-export interface IVenue {
-    id: string;
-    slug: string;
-    name: string;
-    sportId: TSportId;
-    /** Short label drawn on the photo, e.g. «پدل» or «تنیس خاکی». */
-    sportLabel: string;
-    rating: number;
-    location: string;
-    distanceKm: number;
-    priceToman: number;
-    /** Free Time Slots today; zero means the venue is listed but full. */
-    availableSlots: number;
-    discounted: boolean;
-    highlight: IVenueHighlight;
-    image: string;
-    amenities: readonly string[];
+/** The facility search envelope. */
+export interface IFacilityListResponse {
+    facilities: IFacility[];
 }
 
 /** Client-side filter state, mirrored into the URL. */
 export interface ISearchState {
     sport: TSportFilter;
-    sort: TVenueSort;
+    sort: TFacilitySort;
     minRating: number | null;
     maxPrice: number | null;
     freeSlotsOnly: boolean;
-    discountedOnly: boolean;
 }
 
 /** Search state plus the live query. */
@@ -49,8 +45,5 @@ export interface ISearchParams extends ISearchState {
     query: string;
 }
 
-/** The advanced-filter sheet edits everything except the sort. */
-export type TFilterDraft = Pick<
-    ISearchState,
-    'sport' | 'minRating' | 'maxPrice' | 'freeSlotsOnly' | 'discountedOnly'
->;
+/** The advanced-filter sheet edits everything except sport and sort. */
+export type TFilterDraft = Pick<ISearchState, 'minRating' | 'maxPrice' | 'freeSlotsOnly'>;
